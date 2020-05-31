@@ -158,9 +158,9 @@ def train(train_queue, model, criterion, optimizer):
 
         prec1, prec5 = utils.accuracy(logits, target, topk=(1, 5))
         n = input.size(0)
-        objs.update(loss.data[0], n)
-        top1.update(prec1.data[0], n)
-        top5.update(prec5.data[0], n)
+        objs.update(loss.item(), n)
+        top1.update(prec1.item(), n)
+        top5.update(prec5.item(), n)
 
         if step % args.report_freq == 0:
             logging.info('train %03d %e %f %f', step,
@@ -184,9 +184,9 @@ def infer(valid_queue, model, criterion):
 
         prec1, prec5 = utils.accuracy(logits, target, topk=(1, 5))
         n = input.size(0)
-        objs.update(loss.data[0], n)
-        top1.update(prec1.data[0], n)
-        top5.update(prec5.data[0], n)
+        objs.update(loss.item(), n)
+        top1.update(prec1.item(), n)
+        top5.update(prec5.item(), n)
 
         if step % args.report_freq == 0:
             logging.info('valid %03d %e %f %f', step,
