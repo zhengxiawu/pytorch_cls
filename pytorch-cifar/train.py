@@ -15,7 +15,6 @@ import torch.utils
 import torchvision.datasets as dset
 from torch.autograd import Variable
 
-import genotypes
 import utils
 from models import get_model
 
