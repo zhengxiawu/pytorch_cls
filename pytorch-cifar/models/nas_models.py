@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from collections import namedtuple
-from layers import drop_path
+from .layers import drop_path
 Genotype = namedtuple('Genotype', 'normal normal_concat reduce reduce_concat')
 
 OPS = {
