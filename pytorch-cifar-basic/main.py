@@ -84,7 +84,6 @@ logger.info("The FLOPS is: {0}".format(macs))
 net = net.to(device)
 if device == 'cuda':
     net = torch.nn.DataParallel(net)
-    cudnn.benchmark = True
 
 # if args.resume:
 #     # Load checkpoint.
