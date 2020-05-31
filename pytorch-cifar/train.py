@@ -91,6 +91,7 @@ def main():
     logging.info("args = %s", args)
 
     model = get_model(args.model_name)
+    model.drop_path_prob = 0.
     macs, params = profile(model, inputs=(torch.randn(1, 3, 32, 32), ))
     macs, params = macs / 1000. / 1000., params / 1000. / 1000.
     logging.info("The parameter size is: {0}".format((params)))
