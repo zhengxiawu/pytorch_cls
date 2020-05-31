@@ -138,7 +138,7 @@ def main():
 
         if best_acc < valid_acc:
             best_acc = valid_acc
-            logging.info("Current best Prec@1 = {%f}", best_acc)
+            logging.info("Current best Prec@1 = %f", best_acc)
             utils.save(model, os.path.join(args.save, 'best.pt'))
 
         utils.save(model, os.path.join(args.save, 'weights.pt'))
