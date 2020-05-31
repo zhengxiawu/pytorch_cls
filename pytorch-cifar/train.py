@@ -19,7 +19,7 @@ import utils
 from models import get_model
 
 parser = argparse.ArgumentParser("cifar")
-parser.add_argument('--data', type=str, default='../data',
+parser.add_argument('--data', type=str, default='/gdata/cifar10',
                     help='location of the data corpus')
 parser.add_argument('--model_name', default='nasnet',
                     type=str, help='select the model')
