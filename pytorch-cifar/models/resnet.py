@@ -108,6 +108,7 @@ class ResNet(nn.Module):
         return out
 
     def forward(self, x):
+        logits_aux = None
         out = F.relu(self.bn1(self.conv1(x)))
         out = self.list_layer_forward(self.layer1, out)
         out = self.list_layer_forward(self.layer2, out)
