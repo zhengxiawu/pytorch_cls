@@ -100,7 +100,7 @@ class ResNet(nn.Module):
         for stride in strides:
             layers.append(block(self.in_planes, planes, stride))
             self.in_planes = planes * block.expansion
-        return layers
+        return nn.Sequential(*layers)
     
     def list_layer_forward(self, layers, out):
         for layer in layers:
