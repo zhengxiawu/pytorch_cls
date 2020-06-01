@@ -41,11 +41,11 @@ parser.add_argument('--layers', type=int, default=20,
 parser.add_argument('--model_path', type=str,
                     default='saved_models', help='path to save the model')
 parser.add_argument('--auxiliary', action='store_true',
-                    default=False, help='use auxiliary tower')
+                    default=True, help='use auxiliary tower')
 parser.add_argument('--auxiliary_weight', type=float,
                     default=0.4, help='weight for auxiliary loss')
 parser.add_argument('--cutout', action='store_true',
-                    default=False, help='use cutout')
+                    default=True, help='use cutout')
 parser.add_argument('--cutout_length', type=int,
                     default=16, help='cutout length')
 parser.add_argument('--drop_path_prob', type=float,
@@ -53,13 +53,12 @@ parser.add_argument('--drop_path_prob', type=float,
 parser.add_argument('--save', type=str,
                     default='./experiment', help='experiment name')
 parser.add_argument('--seed', type=int, default=0, help='random seed')
-parser.add_argument('--arch', type=str, default='DARTS',
-                    help='which architecture to use')
 parser.add_argument('--grad_clip', type=float,
                     default=5, help='gradient clipping')
 args = parser.parse_args()
 
-args.save = "./experiment/{}".format(args.model_name)
+
+args.save = "./experiment/{}_{}".format(args.model_name, time.strftime("%Y%m%d-%H%M%S"))
 utils.create_exp_dir(args.save, scripts_to_save=glob.glob('*.py'))
 
 log_format = '%(asctime)s %(message)s'
