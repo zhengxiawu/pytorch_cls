@@ -90,7 +90,7 @@ class ResNet(nn.Module):
         self.layer2 = self._make_layer(block, 128, num_blocks[1], stride=2)
         self.layer3 = self._make_layer(block, 256, num_blocks[2], stride=2)
         # aux head
-        self.aux_head = AuxiliaryHeadCIFAR(256, 10)
+        self.aux_head = AuxiliaryHeadCIFAR(256*block.expansion, 10)
         self.layer4 = self._make_layer(block, 512, num_blocks[3], stride=2)
         self.linear = nn.Linear(512*block.expansion, num_classes)
 
@@ -143,10 +143,33 @@ def ResNet152():
 
 
 def test():
+    print('resnet18 testing:')
     net = ResNet18()
     logit, logit_aux = net(torch.randn(2, 3, 32, 32))
     print(logit.size())
     print(logit_aux.size())
+    print('pass!')
+
+    print('resnet34 testing:')
+    net = ResNet34()
+    logit, logit_aux = net(torch.randn(2, 3, 32, 32))
+    print(logit.size())
+    print(logit_aux.size())
+    print('pass!')
+
+    print('resnet50 testing:')
+    net = ResNet50()
+    logit, logit_aux = net(torch.randn(2, 3, 32, 32))
+    print(logit.size())
+    print(logit_aux.size())
+    print('pass!')
+
+    print('resnet101 testing:')
+    net = ResNet101()
+    logit, logit_aux = net(torch.randn(2, 3, 32, 32))
+    print(logit.size())
+    print(logit_aux.size())
+    print('pass!')
 
 
 # test()
