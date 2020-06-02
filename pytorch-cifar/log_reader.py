@@ -18,7 +18,7 @@ if __name__ == "__main__":
                     log_lines = f.readlines()
                 print(log_lines[2])
                 start_time = datetime.strptime(log_lines[0][0:19], '%Y-%m-%d %H:%M:%S')
-                end_time = datetime.strptime(log_lines[-1][0:17], '%Y-%m-%d %H:%M:%S')
+                end_time = datetime.strptime(log_lines[-1][0:19], '%Y-%m-%d %H:%M:%S')
                 training_hours = (end_time - start_time).total_seconds() / 3600.
                 print("Training times is {0}".format(training_hours))
                 _temp = []
