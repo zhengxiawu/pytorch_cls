@@ -7,9 +7,13 @@ A classification repo implemented with PyTorch on CIFAR-10 and ImageNet under di
 
 ## Training Results
 
-### Basic Training on CIFAR10:
-| Model             | Acc.        | FLOPS        | param        | training time (hours)|
-| ----------------- | ----------- | -----------  | -----------  | -----------          |
+### PyTorch-cifar-basic:
+
+Training different architectures ([PyTorch](http://pytorch.org/)) on the CIFAR10 dataset without any tricks i.e., auto-augmentation, cutout, droppath, dropout. The learning rate is adjusted by the consine learning schedular, start from 0.1 with 300 epochs.
+
+
+| Model             | Acc.        | FLOPS        | param        | training time <br> (hours)|
+| ----------------- | :---------: | :---------:  | :---------:  | :---------:               |
 | [Lenet](http://vision.stanford.edu/cs598_spring07/papers/Lecun98.pdf)|   77.56%    |0.65M | 0.06M | 0.63 |
 | [googlenet](https://arxiv.org/pdf/1409.4842.pdf)      |   95.26%    |1529M | 6.16M | 6.16 |
 | [Mobilenet](https://arxiv.org/pdf/1704.04861.pdf)     |   92.18%    |47M   | 3.21M | 0.85 |
@@ -42,8 +46,12 @@ A classification repo implemented with PyTorch on CIFAR-10 and ImageNet under di
 | [Darts_V1](https://arxiv.org/abs/1806.09055)          | 95.05%      | 511M | 3.16M | 11.69|
 | [Darts_V2](https://arxiv.org/abs/1806.09055)          | 94.97%      | 539M | 3.34M | 12.32|
 
+#### How to use
+Training the models in basic train with:
+
+`cd ./pytorch-cifar-basic; python main.py --model_name resnet18`
 
 ## Reference
 
-[darts](https://github.com/quark0/darts)
-[pytorch-cifar](https://github.com/kuangliu/pytorch-cifar)
+* [darts](https://github.com/quark0/darts)
+* [pytorch-cifar](https://github.com/kuangliu/pytorch-cifar)
