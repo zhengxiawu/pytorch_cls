@@ -67,6 +67,7 @@ Training different architectures ([PyTorch](http://pytorch.org/)) on the CIFAR10
 |ResNet18 |96.33%| 556M  |11.17M| 4.4                      |0.4             | 0.2     |16    |
 |ResNet34 |95.46%| 1161M |21.28M| 7.56                     |FALSE           | 0.2     |FALSE |
 |ResNet34 |96.84%| 1161M |21.28M| 7.69                     |0.4             | 0.2     |16    |
+|ResNet50 |96.62%| 1304M |23.52M| 11.51                    |0.4             | 0.2     |16    |
 |ResNet101|95.97%| 2520M |42.51M| 19.7                     |FALSE           | 0.2     |FALSE |
 |ResNet152|95.81%| 3736M |58.15M| 23.32                    |FALSE           | 0.2     |FALSE |
 
