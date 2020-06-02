@@ -51,6 +51,23 @@ Training the models in basic train with:
 
 `cd ./pytorch-cifar-basic; python main.py --model_name resnet18`
 
+
+
+### PyTorch-cifar:
+
+Training different architectures ([PyTorch](http://pytorch.org/)) on the CIFAR10 dataset with and without tricks i.e., cutout, droppath, dropout. The learning rate is adjusted by the consine learning schedular, start from 0.025, batch size 96 with 600 epochs.
+
+| Model   | Acc. | FLOPS | param|training time <br> (hours)|Auxiliary Weight|Drop Path|Cutout|
+| -       | :-:  | :--:  | :--: | :-----------------------:|:-------------: |:-------:|:----:|
+|NASNet   |95.43%| 615M  | 3.83M| 30.94                    |FALSE           | 0.2     |FALSE |
+|AmoebaNet|95.71%| 499M  | 3.14M| 25.90                    |FALSE           | 0.2     |FALSE |
+|Darts_V1 |95.42%| 511M  | 3.16M| 25.96                    |FALSE           | 0.2     |FALSE |
+|Darts_V2 |95.42%| 539M  | 3.34M| 28.39                    |FALSE           | 0.2     |FALSE |
+|ResNet18 |95.60%| 539M  |11.17M| 4.14                     |FALSE           | 0.2     |FALSE |
+|ResNet18 |96.33%| 556M  |11.17M| 4.4                      |0.4             | 0.2     |16    |
+|ResNet34 |95.46%| 1161M |21.28M| 7.56                     |FALSE           | 0.2     |FALSE |
+|ResNet34 |96.84%| 1161M |21.28M| 7.69                     |0.4             | 0.2     |16    |
+
 ## Reference
 
 * [darts](https://github.com/quark0/darts)
