@@ -60,9 +60,13 @@ Training different architectures ([PyTorch](http://pytorch.org/)) on the CIFAR10
 | Model   | Acc. | FLOPS | param|training time <br> (hours)|Auxiliary Weight|Drop Path|Cutout|
 | -       | :-:  | :--:  | :--: | :-----------------------:|:-------------: |:-------:|:----:|
 |NASNet   |95.43%| 615M  | 3.83M| 30.94                    |FALSE           | 0.2     |FALSE |
+|NASNet   |97.02%| 615M  | 3.83M| 30.94                    |0.4             | 0.2     |16    |
 |AmoebaNet|95.71%| 499M  | 3.14M| 25.90                    |FALSE           | 0.2     |FALSE |
+|AmoebaNet|97.04%| 499M  | 3.14M| 25.90                    |0.4             | 0.2     |16    |
 |Darts_V1 |95.42%| 511M  | 3.16M| 25.96                    |FALSE           | 0.2     |FALSE |
+|Darts_V1 |96.90%| 511M  | 3.16M| 25.96                    |0.4             | 0.2     |16    |
 |Darts_V2 |95.42%| 539M  | 3.34M| 28.39                    |FALSE           | 0.2     |FALSE |
+|Darts_V2 |97.04%| 539M  | 3.34M| 28.39                    |0.4             | 0.2     |16    |
 |ResNet18 |95.60%| 539M  |11.17M| 4.14                     |FALSE           | 0.2     |FALSE |
 |ResNet18 |96.33%| 556M  |11.17M| 4.4                      |0.4             | 0.2     |16    |
 |ResNet34 |95.46%| 1161M |21.28M| 7.56                     |FALSE           | 0.2     |FALSE |
