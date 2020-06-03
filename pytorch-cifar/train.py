@@ -125,7 +125,7 @@ def main():
 
     for epoch in range(args.epochs):
 
-        logging.info('epoch %d lr %e', epoch, scheduler.get_last_lr()[0])
+        logging.info('epoch %d lr %e', epoch, scheduler.get_lr()[0])
         model.drop_path_prob = args.drop_path_prob * epoch / args.epochs
 
         train_acc, train_obj = train(train_queue, model, criterion, optimizer)
