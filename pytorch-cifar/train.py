@@ -58,7 +58,7 @@ parser.add_argument('--grad_clip', type=float,
 args = parser.parse_args()
 
 
-args.save = "./experiment/{}_{}".format(args.model_name, time.strftime("%Y%m%d-%H%M%S"))
+args.save = "./experiment/{}_{}_{}".format(args.model_name, time.strftime("%Y%m%d-%H%M%S"), torch.__version__)
 utils.create_exp_dir(args.save, scripts_to_save=glob.glob('*.py'))
 
 log_format = '%(asctime)s %(message)s'
