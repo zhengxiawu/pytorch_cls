@@ -101,7 +101,7 @@ class ResNet(nn.Module):
             layers.append(block(self.in_planes, planes, stride))
             self.in_planes = planes * block.expansion
         return nn.Sequential(*layers)
-    
+
     def list_layer_forward(self, layers, out):
         for layer in layers:
             out = layer(out, self.drop_path_prob)
@@ -120,6 +120,28 @@ class ResNet(nn.Module):
         out = out.view(out.size(0), -1)
         out = self.linear(out)
         return out, logits_aux
+
+
+class Res_Cell(nn.Module):
+    def __init__(self, init_channels, layers, block):
+        super(Res_Cell, self).__init__()
+        self._auxiliary = True
+        channel = init_channels
+        self.conv1 = nn.Conv2d(3, channel, kernel_size=3,
+                               stride=1, padding=1, bias=False)
+        self.bn1 = nn.BatchNorm2d(channel)
+        self.layers = []
+        self.in_planes = channel
+        for i in range(layers):
+            if i in [layers//3, 2*layers//3]:
+                channel *= 2
+                stride = 2
+            else:
+                stride = 1
+            self.layers.append(block(self.in_planes, channel, stride))
+            self.in_planes = channel * block.expansion
+            
+        
 
 
 def ResNet18():
