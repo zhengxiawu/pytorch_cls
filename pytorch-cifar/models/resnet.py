@@ -123,7 +123,7 @@ class ResNet(nn.Module):
 
 
 class Res_Cell(nn.Module):
-    def __init__(self, init_channels, layers, block):
+    def __init__(self, init_channels, multi_factor, layers, block, num_classes=10):
         super(Res_Cell, self).__init__()
         self._auxiliary = True
         channel = init_channels
@@ -131,17 +131,20 @@ class Res_Cell(nn.Module):
                                stride=1, padding=1, bias=False)
         self.bn1 = nn.BatchNorm2d(channel)
         self.layers = []
+        self._multiply_factor = multi_factor
         self.in_planes = channel
         for i in range(layers):
             if i in [layers//3, 2*layers//3]:
-                channel *= 2
+                channel *= self._multiply_factor
                 stride = 2
             else:
                 stride = 1
             self.layers.append(block(self.in_planes, channel, stride))
             self.in_planes = channel * block.expansion
-            
-        
+        self.aux_head = AuxiliaryHeadCIFAR(
+            init_channels * self._multiply_factor * block.expansion, 10)
+        self.linear = nn.Linear(self._multiply_factor **
+                                2 * block.expansion, num_classes)
 
 
 def ResNet18():
