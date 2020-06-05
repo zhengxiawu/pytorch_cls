@@ -7,6 +7,8 @@ from tensorboardX import SummaryWriter
 from config import AugmentConfig
 import utils
 from models import get_model
+from thop import profile
+import random
 
 
 config = AugmentConfig()
@@ -32,8 +34,11 @@ def main():
     np.random.seed(config.seed)
     torch.manual_seed(config.seed)
     torch.cuda.manual_seed_all(config.seed)
+    random.seed(config.seed)
 
-    torch.backends.cudnn.benchmark = True
+    torch.backends.cudnn.benchmark = False
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.enabled = True
 
     # get data with meta info
     input_size, input_channels, n_classes, train_data, valid_data = utils.get_data(
@@ -43,9 +48,11 @@ def main():
     model = get_model(config.model_name)
     model = nn.DataParallel(model, device_ids=config.gpus).to(device)
 
-    # model size
-    mb_params = utils.param_size(model)
-    logger.info("Model size = {:.3f} MB".format(mb_params))
+    # model size and flops
+    macs, params = profile(model, inputs=(torch.randn(1, 3, 32, 32), ))
+    macs, params = macs / 1000. / 1000., params / 1000. / 1000.
+    logger.info("Model size = {:.3f} M".format(params))
+    logger.info("FLOPs = {:.3f} M".format(macs))
 
     # weights optimizer
     optimizer = torch.optim.SGD(model.parameters(), config.lr, momentum=config.momentum,
