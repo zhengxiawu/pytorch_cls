@@ -61,12 +61,12 @@ def main():
                                                shuffle=False,
                                                num_workers=config.workers,
                                                pin_memory=True)
-    lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, config.epochs)
+    lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
+        optimizer, config.epochs)
 
     best_top1 = 0.
     # training loop
     for epoch in range(config.epochs):
-        lr_scheduler.step()
         drop_prob = config.drop_path_prob * epoch / config.epochs
         model.module.drop_path_prob(drop_prob)
 
@@ -76,7 +76,7 @@ def main():
         # validation
         cur_step = (epoch+1) * len(train_loader)
         top1 = validate(valid_loader, model, criterion, epoch, cur_step)
-
+        lr_scheduler.step()
         # save
         if best_top1 < top1:
             best_top1 = top1
@@ -134,7 +134,8 @@ def train(train_loader, model, optimizer, criterion, epoch):
         writer.add_scalar('train/top5', prec5.item(), cur_step)
         cur_step += 1
 
-    logger.info("Train: [{:3d}/{}] Final Prec@1 {:.4%}".format(epoch+1, config.epochs, top1.avg))
+    logger.info(
+        "Train: [{:3d}/{}] Final Prec@1 {:.4%}".format(epoch+1, config.epochs, top1.avg))
 
 
 def validate(valid_loader, model, criterion, epoch, cur_step):
@@ -146,7 +147,8 @@ def validate(valid_loader, model, criterion, epoch, cur_step):
 
     with torch.no_grad():
         for step, (X, y) in enumerate(valid_loader):
-            X, y = X.to(device, non_blocking=True), y.to(device, non_blocking=True)
+            X, y = X.to(device, non_blocking=True), y.to(
+                device, non_blocking=True)
             N = X.size(0)
 
             logits, _ = model(X)
@@ -168,7 +170,8 @@ def validate(valid_loader, model, criterion, epoch, cur_step):
     writer.add_scalar('val/top1', top1.avg, cur_step)
     writer.add_scalar('val/top5', top5.avg, cur_step)
 
-    logger.info("Valid: [{:3d}/{}] Final Prec@1 {:.4%}".format(epoch+1, config.epochs, top1.avg))
+    logger.info(
+        "Valid: [{:3d}/{}] Final Prec@1 {:.4%}".format(epoch+1, config.epochs, top1.avg))
 
     return top1.avg
 
