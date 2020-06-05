@@ -61,7 +61,7 @@ class AugmentConfig(BaseConfig):
         parser.add_argument('--cutout_length', type=int, default=16, help='cutout length')
         parser.add_argument('--drop_path_prob', type=float, default=0.2, help='drop path prob')
 
-        parser.add_argument('--genotype', required=True, help='Cell genotype')
+        parser.add_argument('--arch', default='nasnet', help='Cell genotype')
 
         return parser
 

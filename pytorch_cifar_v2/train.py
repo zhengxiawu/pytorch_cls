@@ -6,7 +6,7 @@ import numpy as np
 from tensorboardX import SummaryWriter
 from config import AugmentConfig
 import utils
-from models.augment_cnn import AugmentCNN
+from models import get_model
 
 
 config = AugmentConfig()
@@ -39,9 +39,7 @@ def main():
         config.dataset, config.data_path, config.cutout_length, validation=True)
 
     criterion = nn.CrossEntropyLoss().to(device)
-    use_aux = config.aux_weight > 0.
-    model = AugmentCNN(input_size, input_channels, config.init_channels, n_classes, config.layers,
-                       use_aux, config.genotype)
+    model = get_model(config.arch)
     model = nn.DataParallel(model, device_ids=config.gpus).to(device)
 
     # model size
@@ -82,6 +80,7 @@ def main():
         if best_top1 < top1:
             best_top1 = top1
             is_best = True
+            logger.info("Current best Prec@1 = {:.4%}".format(best_top1))
         else:
             is_best = False
         utils.save_checkpoint(model, config.path, is_best)
