@@ -23,6 +23,7 @@ config.print_params(logger.info)
 
 def main():
     logger.info("Logger is set - training start")
+    logger.info('torch version is: {0}'.format(torch.__version__))
 
     # set default gpu device id
     torch.cuda.set_device(config.gpus[0])
@@ -39,7 +40,7 @@ def main():
         config.dataset, config.data_path, config.cutout_length, validation=True)
 
     criterion = nn.CrossEntropyLoss().to(device)
-    model = get_model(config.arch)
+    model = get_model(config.model_name)
     model = nn.DataParallel(model, device_ids=config.gpus).to(device)
 
     # model size
