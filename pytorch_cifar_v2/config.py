@@ -81,7 +81,7 @@ class AugmentConfig(BaseConfig):
         super().__init__(**vars(args))
 
         self.data_path = '/gdata/cifar10'
-        _path = "./experiment/{}_{}_{}".format(
+        _path = "{}_{}_{}".format(
             self.model_name, time.strftime("%Y%m%d-%H%M%S"), torch.__version__)
         self.path = os.path.join('./experiments', _path)
         self.gpus = parse_gpus(self.gpus)
