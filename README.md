@@ -55,6 +55,10 @@ Training the models in basic train with:
 
 ### PyTorch-cifar:
 
+Code base: [darts](https://github.com/quark0/darts)
+
+Torch version: 1.5.0+cu101
+
 Training different architectures ([PyTorch](http://pytorch.org/)) on the CIFAR10 dataset with and without tricks i.e., cutout, droppath, dropout. The learning rate is adjusted by the consine learning schedular, start from 0.025, batch size 96 with 600 epochs.
 
 | Model   | Acc. | FLOPS | param|training time <br> (hours)|Auxiliary Weight|Drop Path|Cutout|
@@ -76,6 +80,28 @@ Training different architectures ([PyTorch](http://pytorch.org/)) on the CIFAR10
 |ResNet101|96.60%| 2520M |42.51M| 19.7                     |0.4             | 0.2     |16    |
 |ResNet152|95.81%| 3736M |58.15M| 23.32                    |FALSE           | 0.2     |FALSE |
 |ResNet152|96.87%| 3736M |58.15M| 23.32                    |0.4             | 0.2     |16    |
+
+#### Result On different torch versions:
+
+Model: NASNet
+
+Training condition: 
+``` python
+Namespace(auxiliary=True, auxiliary_weight=0.4, batch_size=96, cutout=True, cutout_length=16, data='/gdata/cifar10', drop_path_prob=0.2, epochs=600, gpu=0, grad_clip=5, init_channels=36, layers=20, learning_rate=0.025, model_name='nasnet', momentum=0.9, report_freq=50, seed=0, weight_decay=0.0003)
+```
+
+| Version   | Acc. | training time <br> (hours)|
+| -         | :-:  | :----------------------:  |
+| 1.5.0     | 97.02| 31.43                     |
+| 1.0.1     | 96.79| 32.7025                   |
+|1.0.1.post2| 97.11| 40.8297                   |
+| 1.1.0     | 96.86| 42.3611                   |
+| 1.2.0     | 96.79| 40.7019                   |
+| 1.3.0     | 96.86| 34.0188                   |
+| 1.3.1     | 96.69| 41.6177                   |
+| 1.4.0     | 97.02| 34.2972                   |
+
+
 
 ## Reference
 
