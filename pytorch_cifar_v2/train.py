@@ -46,13 +46,14 @@ def main():
 
     criterion = nn.CrossEntropyLoss().to(device)
     model = get_model(config.model_name)
-    model = nn.DataParallel(model, device_ids=config.gpus).to(device)
 
     # model size and flops
     macs, params = profile(model, inputs=(torch.randn(1, 3, 32, 32), ))
     macs, params = macs / 1000. / 1000., params / 1000. / 1000.
     logger.info("Model size = {:.3f} M".format(params))
     logger.info("FLOPs = {:.3f} M".format(macs))
+
+    model = nn.DataParallel(model, device_ids=config.gpus).to(device)
 
     # weights optimizer
     optimizer = torch.optim.SGD(model.parameters(), config.lr, momentum=config.momentum,
