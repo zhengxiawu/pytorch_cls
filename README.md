@@ -122,15 +122,15 @@ Training different architectures ([PyTorch](http://pytorch.org/)) on the CIFAR10
 |Darts_V2 |      | 539M  | 3.34M| 28.06                    |0.4             | 0.2     |16    |
 |ResNet18 |      | 556M  |11.17M| 4.14                     |FALSE           | 0.2     |FALSE |
 |ResNet18 |96.52%| 556M  |11.17M| 4.4                      |0.4             | 0.2     |16    |
-|ResNet34 |      | 1161M |21.28M| 7.56                     |FALSE           | 0.2     |FALSE |
+|ResNet34 |      | 1161M |21.28M| 7.56                     |0.0             | 0.0     |0.0   |
 |ResNet34 |97.10%| 1161M |21.28M| 7.69                     |0.4             | 0.2     |16    |
-|ResNet50 |      | 1304M |23.52M| 11.51                    |0.4             | 0.2     |16    |
+|ResNet50 |96.85%| 1304M |23.52M| 11.51                    |0.4             | 0.2     |16    |
 |ResNet101|      | 2520M |42.51M| 19.7                     |FALSE           | 0.2     |FALSE |
 |ResNet101|      | 2520M |42.51M| 19.7                     |0.4             | 0.2     |16    |
 |ResNet152|      | 3736M |58.15M| 23.32                    |FALSE           | 0.2     |FALSE |
 |ResNet152|      | 3736M |58.15M| 23.32                    |0.4             | 0.2     |16    |
 |ResBasic |97.31%| 1481M |10.45M| 9.52                     |0.4             | 0.2     |16    |
-|ResBottle|      | 1542M |10.71M| 9.52                     |0.4             | 0.2     |16    |
+|ResBottle|96.97%| 1542M |10.71M| 9.52                     |0.4             | 0.2     |16    |
 
 
 ## Reference

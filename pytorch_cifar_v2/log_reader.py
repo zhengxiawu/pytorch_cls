@@ -21,7 +21,9 @@ if __name__ == "__main__":
                 training_hours = (end_time - start_time).total_seconds() / 3600.
                 print("Training times is {0}".format(training_hours))
                 print("Hyper-parameters is:")
-                print(log_lines[2:21])
+                print(log_lines[2])
+                print(log_lines[4])
+                print(log_lines[7])
                 for line in log_lines:
                     if 'Model size' in line:
                         print(line)
