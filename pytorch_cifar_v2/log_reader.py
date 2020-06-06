@@ -20,17 +20,12 @@ if __name__ == "__main__":
                 end_time = datetime.strptime(log_lines[-1][0:17], '%m/%d %I:%M:%S %p')
                 training_hours = (end_time - start_time).total_seconds() / 3600.
                 print("Training times is {0}".format(training_hours))
-                _temp = []
+                print("Hyper-parameters is:")
+                print(log_lines[0:22])
                 for line in log_lines:
-                    if 'parameter size' in line:
+                    if 'Model size' in line:
                         print(line)
-                    if 'FLOPS' in line:
+                    if 'FLOPs' in line:
                         print(line)
-                    if 'Current best' in line:
-                        _temp.append(line)
-                if len(_temp) > 0:
-                    print(_temp[-1])
-                else:
-                    print(_temp)
                 print(log_lines[-1])
 
