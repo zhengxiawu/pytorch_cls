@@ -102,8 +102,39 @@ Namespace(auxiliary=True, auxiliary_weight=0.4, batch_size=96, cutout=True, cuto
 | 1.4.0     | 97.02| 34.2972                   |
 
 
+### PyTorch_cifar_v2:
+
+Code base: [pt.darts](https://github.com/khanrc/pt.darts)
+
+Torch version: 1.5.0+cu101
+
+Training different architectures ([PyTorch](http://pytorch.org/)) on the CIFAR10 dataset with and without tricks i.e., cutout, droppath, dropout. The learning rate is adjusted by the consine learning schedular, start from 0.025, batch size 96 with 600 epochs.
+
+| Model   | Acc. | FLOPS | param|training time <br> (hours)|Auxiliary Weight|Drop Path|Cutout|
+| -       | :-:  | :--:  | :--: | :-----------------------:|:-------------: |:-------:|:----:|
+|NASNet   |      | 615M  | 3.83M| 30.94                    |FALSE           | 0.2     |FALSE |
+|NASNet   |      | 615M  | 3.83M| 31.43                    |0.4             | 0.2     |16    |
+|AmoebaNet|      | 499M  | 3.14M| 25.90                    |FALSE           | 0.2     |FALSE |
+|AmoebaNet|      | 499M  | 3.14M| 31.02                    |0.4             | 0.2     |16    |
+|Darts_V1 |      | 511M  | 3.16M| 25.96                    |FALSE           | 0.2     |FALSE |
+|Darts_V1 |      | 511M  | 3.16M| 32.06                    |0.4             | 0.2     |16    |
+|Darts_V2 |      | 539M  | 3.34M| 28.39                    |FALSE           | 0.2     |FALSE |
+|Darts_V2 |      | 539M  | 3.34M| 28.06                    |0.4             | 0.2     |16    |
+|ResNet18 |      | 556M  |11.17M| 4.14                     |FALSE           | 0.2     |FALSE |
+|ResNet18 |96.52%| 556M  |11.17M| 4.4                      |0.4             | 0.2     |16    |
+|ResNet34 |      | 1161M |21.28M| 7.56                     |FALSE           | 0.2     |FALSE |
+|ResNet34 |97.10%| 1161M |21.28M| 7.69                     |0.4             | 0.2     |16    |
+|ResNet50 |      | 1304M |23.52M| 11.51                    |0.4             | 0.2     |16    |
+|ResNet101|      | 2520M |42.51M| 19.7                     |FALSE           | 0.2     |FALSE |
+|ResNet101|      | 2520M |42.51M| 19.7                     |0.4             | 0.2     |16    |
+|ResNet152|      | 3736M |58.15M| 23.32                    |FALSE           | 0.2     |FALSE |
+|ResNet152|      | 3736M |58.15M| 23.32                    |0.4             | 0.2     |16    |
+|ResBasic |97.31%| 1481M |10.45M| 9.52                     |0.4             | 0.2     |16    |
+|ResBottle|      | 1542M |10.71M| 9.52                     |0.4             | 0.2     |16    |
+
 
 ## Reference
 
+* [pt.darts](https://github.com/khanrc/pt.darts)
 * [darts](https://github.com/quark0/darts)
 * [pytorch-cifar](https://github.com/kuangliu/pytorch-cifar)
