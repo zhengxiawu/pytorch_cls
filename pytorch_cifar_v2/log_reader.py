@@ -6,7 +6,7 @@ from datetime import datetime
 
 
 if __name__ == "__main__":
-    experiment_path = os.path.abspath('./experiment')
+    experiment_path = os.path.abspath('./experiments')
     model_list = os.listdir(experiment_path)
     model_list.sort()
     for model in model_list:
