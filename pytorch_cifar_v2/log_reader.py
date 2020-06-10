@@ -27,10 +27,10 @@ if __name__ == "__main__":
                 training_hours = (end_time - start_time).total_seconds() / 3600.
                 for line in log_lines:
                     if 'Model size' in line:
-                        model_size = line.split('=')[-2]
+                        model_size = line.split('=')[-1][0:-2]
                     if 'FLOPs' in line:
-                        flops = line.split('=')[-2]
-                md_str += log_lines[-1].split('=')[-2]
+                        flops = line.split('=')[-1][0:-2]
+                md_str += log_lines[-1].split('=')[-1][0:-2]
                 md_str += '|'
                 md_str += model_size
                 md_str += '|'
