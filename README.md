@@ -1,18 +1,19 @@
 # pytorch_cls
-A classification repo implemented with PyTorch on CIFAR-10 and ImageNet under different training conditions 
+
+A classification repo implemented with PyTorch on CIFAR-10 and ImageNet under different training conditions.
 
 ## Prerequisites
-- Python 3.6+
-- PyTorch 1.5.0-cu10.1
+
+* Python 3.6+
+* PyTorch 1.5.0-cu10.1
 
 ## Training Results
 
-### PyTorch-cifar-basic:
+### PyTorch-cifar-basic
 
 Training different architectures ([PyTorch](http://pytorch.org/)) on the CIFAR10 dataset without any tricks i.e., auto-augmentation, cutout, droppath, dropout. The learning rate is adjusted by the consine learning schedular, start from 0.1 with 300 epochs.
 
-
-| Model             | Acc.        | FLOPS        | param        | training time <br> (hours)|
+| Model             | Acc.        | FLOPS        | param        | training time      (hours)|
 | ----------------- | :---------: | :---------:  | :---------:  | :---------:               |
 | [Lenet](http://vision.stanford.edu/cs598_spring07/papers/Lecun98.pdf)|   77.56%    |0.65M | 0.06M | 0.63 |
 | [googlenet](https://arxiv.org/pdf/1409.4842.pdf)      |   95.26%    |1529M | 6.16M | 6.16 |
@@ -47,13 +48,12 @@ Training different architectures ([PyTorch](http://pytorch.org/)) on the CIFAR10
 | [Darts_V2](https://arxiv.org/abs/1806.09055)          | 94.97%      | 539M | 3.34M | 12.32|
 
 #### How to use
+
 Training the models in basic train with:
 
 `cd ./pytorch-cifar-basic; python main.py --model_name resnet18`
 
-
-
-### PyTorch-cifar:
+### PyTorch-cifar
 
 Code base: [darts](https://github.com/quark0/darts)
 
@@ -61,7 +61,7 @@ Torch version: 1.5.0+cu101
 
 Training different architectures ([PyTorch](http://pytorch.org/)) on the CIFAR10 dataset with and without tricks i.e., cutout, droppath, dropout. The learning rate is adjusted by the consine learning schedular, start from 0.025, batch size 96 with 600 epochs.
 
-| Model   | Acc. | FLOPS | param|training time <br> (hours)|Auxiliary Weight|Drop Path|Cutout|
+| Model   | Acc. | FLOPS | param|training time (hours)     |Auxiliary Weight|Drop Path|Cutout|
 | -       | :-:  | :--:  | :--: | :-----------------------:|:-------------: |:-------:|:----:|
 |NASNet   |95.43%| 615M  | 3.83M| 30.94                    |FALSE           | 0.2     |FALSE |
 |NASNet   |97.02%| 615M  | 3.83M| 31.43                    |0.4             | 0.2     |16    |
@@ -85,12 +85,13 @@ Training different architectures ([PyTorch](http://pytorch.org/)) on the CIFAR10
 
 Model: NASNet
 
-Training condition: 
+Training condition
+
 ``` python
 Namespace(auxiliary=True, auxiliary_weight=0.4, batch_size=96, cutout=True, cutout_length=16, data='/gdata/cifar10', drop_path_prob=0.2, epochs=600, gpu=0, grad_clip=5, init_channels=36, layers=20, learning_rate=0.025, model_name='nasnet', momentum=0.9, report_freq=50, seed=0, weight_decay=0.0003)
 ```
 
-| Version   | Acc. | training time <br> (hours)|
+| Version   | Acc. | training time      (hours)|
 | -         | :-:  | :----------------------:  |
 | 1.5.0     | 97.02| 31.43                     |
 | 1.0.1     | 96.79| 32.7025                   |
@@ -101,7 +102,7 @@ Namespace(auxiliary=True, auxiliary_weight=0.4, batch_size=96, cutout=True, cuto
 | 1.3.1     | 96.69| 41.6177                   |
 | 1.4.0     | 97.02| 34.2972                   |
 
-### PyTorch_cifar_v2:
+### PyTorch_cifar_v2
 
 Code base: [pt.darts](https://github.com/khanrc/pt.darts)
 
@@ -109,7 +110,7 @@ Torch version: 1.5.0+cu101
 
 Training different architectures ([PyTorch](http://pytorch.org/)) on the CIFAR10 dataset with and without tricks i.e., cutout, droppath, dropout. The learning rate is adjusted by the consine learning schedular, start from 0.025, batch size 96 with 600 epochs.
 
-| Model   | Acc. | FLOPS | param|training time <br> (hours)|Auxiliary Weight|Drop Path|Cutout|
+| Model   | Acc. | FLOPS | param|training time      (hours)|Auxiliary Weight|Drop Path|Cutout|
 | -       | :-:  | :--:  | :--: | :-----------------------:|:-------------: |:-------:|:----:|
 |nasnet   | 95.4400%| 3.842 M| 617.766 M|42.70166666666667 |0.0             |0.0      |0     |
 |nasnet   | 97.0000%| 3.842 M| 617.766 M|41.964166666666664|0.0             |0.0      |16    |

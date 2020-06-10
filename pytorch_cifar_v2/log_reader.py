@@ -22,9 +22,12 @@ if __name__ == "__main__":
             if os.path.isfile(model_log_path):
                 with open(model_log_path) as f:
                     log_lines = f.readlines()
-                start_time = datetime.strptime(log_lines[0][0:17], '%m/%d %I:%M:%S %p')
-                end_time = datetime.strptime(log_lines[-1][0:17], '%m/%d %I:%M:%S %p')
-                training_hours = (end_time - start_time).total_seconds() / 3600.
+                start_time = datetime.strptime(
+                    log_lines[0][0:17], '%m/%d %I:%M:%S %p')
+                end_time = datetime.strptime(
+                    log_lines[-1][0:17], '%m/%d %I:%M:%S %p')
+                training_hours = (end_time - start_time).total_seconds() / \
+                    3600.
                 for line in log_lines:
                     if 'Model size' in line:
                         model_size = line.split('=')[-1][0:-1]
@@ -37,7 +40,8 @@ if __name__ == "__main__":
                 md_str += flops
                 md_str += '|'
                 md_str = md_str + str(training_hours) + '|'
-                md_str = md_str + log_lines[2].split('=')[-1][0:-1] + '             |'
+                md_str = md_str + \
+                    log_lines[2].split('=')[-1][0:-1] + '             |'
                 md_str = md_str + log_lines[7].split('=')[-1][0:-1] + '      |'
                 md_str = md_str + log_lines[4].split('=')[-1][0:-1] + '    |'
                 print(md_str)
@@ -45,6 +49,5 @@ if __name__ == "__main__":
                 # print(log_lines[2])
                 # print(log_lines[4])
                 # print(log_lines[7])
-                
-                # print(log_lines[-1])
 
+                # print(log_lines[-1])
