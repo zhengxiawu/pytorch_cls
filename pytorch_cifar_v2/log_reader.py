@@ -37,9 +37,9 @@ if __name__ == "__main__":
                 md_str += flops
                 md_str += '|'
                 md_str = md_str + str(training_hours) + '|'
-                md_str = md_str + log_lines[2].split('=')[-2] + '|'
-                md_str = md_str + log_lines[7].split('=')[-2] + '|'
-                md_str = md_str + log_lines[4].split('=')[-2] + '|'
+                md_str = md_str + log_lines[2].split('=')[-1][0:-2] + '|'
+                md_str = md_str + log_lines[7].split('=')[-1][0:-2] + '|'
+                md_str = md_str + log_lines[4].split('=')[-1][0:-2] + '|'
                 print(md_str + '\n')
                 # print("Hyper-parameters is:")
                 # print(log_lines[2])
