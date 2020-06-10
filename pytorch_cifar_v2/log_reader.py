@@ -9,8 +9,8 @@ if __name__ == "__main__":
     experiment_path = os.path.abspath('./experiments')
     model_list = os.listdir(experiment_path)
     model_list.sort()
-    md_str = '|'
     for model in model_list:
+        md_str = '|'
         if not model[0] == '.':
             _list = model.split('_')
             if _list[0] == 'darts':
