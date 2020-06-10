@@ -54,7 +54,8 @@ class Bottleneck(nn.Module):
         self.conv2 = nn.Conv2d(planes, planes, kernel_size=3,
                                stride=stride, padding=1, bias=False)
         self.bn2 = nn.BatchNorm2d(planes)
-        self.conv3 = nn.Conv2d(planes, self.expansion * planes, kernel_size=1, bias=False)
+        self.conv3 = nn.Conv2d(planes, self.expansion *
+                               planes, kernel_size=1, bias=False)
         self.bn3 = nn.BatchNorm2d(self.expansion*planes)
 
         self.shortcut = nn.Sequential()
@@ -193,6 +194,14 @@ def BottleNeck_res_cell():
     return Res_Cell(64, 2, 20, Bottleneck)
 
 
+def Basic_rescell_36_3_20():
+    return Res_Cell(36, 3, 20, BasicBlock)
+
+
+def BottleNeck_rescell_36_3_20():
+    return Res_Cell(36, 3, 20, Bottleneck)
+
+
 def test():
     # print('resnet18 testing:')
     # net = ResNet18()
@@ -223,14 +232,14 @@ def test():
     # print('pass!')
 
     print('Basic_res_cell testing:')
-    net = Basic_res_cell()
+    net = Basic_rescell_36_3_20()
     logit, logit_aux = net(torch.randn(2, 3, 32, 32))
     print(logit.size())
     print(logit_aux.size())
     print('pass!')
 
     print('BottleNeck_res_cell testing:')
-    net = BottleNeck_res_cell()
+    net = BottleNeck_rescell_36_3_20()
     logit, logit_aux = net(torch.randn(2, 3, 32, 32))
     print(logit.size())
     print(logit_aux.size())
