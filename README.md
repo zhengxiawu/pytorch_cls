@@ -101,7 +101,6 @@ Namespace(auxiliary=True, auxiliary_weight=0.4, batch_size=96, cutout=True, cuto
 | 1.3.1     | 96.69| 41.6177                   |
 | 1.4.0     | 97.02| 34.2972                   |
 
-
 ### PyTorch_cifar_v2:
 
 Code base: [pt.darts](https://github.com/khanrc/pt.darts)
@@ -164,7 +163,6 @@ Training different architectures ([PyTorch](http://pytorch.org/)) on the CIFAR10
 |ResBottle| 96.8900%|10.714 M|1542.892 M|16.8761111111111  |0.4             |0.0      |16    |
 |ResBottle| 97.0900%|10.714 M|1542.892 M|17.9744444444444  |0.0             |0.2      |16    |
 |ResBottle| 96.9700%|10.714 M|1542.892 M|17.8675           |0.4             |0.2      |16    |
-
 
 ## Reference
 
