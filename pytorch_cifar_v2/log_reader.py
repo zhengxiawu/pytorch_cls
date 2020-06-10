@@ -40,6 +40,7 @@ if __name__ == "__main__":
                 md_str = md_str + log_lines[2].split('=')[-1] + '|'
                 md_str = md_str + log_lines[7].split('=')[-1] + '|'
                 md_str = md_str + log_lines[4].split('=')[-1] + '|'
+                print(md_str)
                 # print("Hyper-parameters is:")
                 # print(log_lines[2])
                 # print(log_lines[4])
