@@ -12,11 +12,12 @@ if __name__ == "__main__":
     for model in model_list:
         md_str = '|'
         if len(model) > 5:
-            _list = model.split('_')
-            if _list[0] == 'darts':
-                md_str += _list[0] + '_' + _list[1]
-            else:
-                md_str += _list[0]
+            md_str += model[0:-30]
+            # _list = model.split('_')
+            # if _list[0] == 'darts':
+            #     md_str += _list[0] + '_' + _list[1]
+            # else:
+            #     md_str += _list[0]
             md_str += "|"
             model_log_path = os.path.join(experiment_path, model, 'logger.log')
             if os.path.isfile(model_log_path):
