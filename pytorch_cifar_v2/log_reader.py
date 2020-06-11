@@ -11,7 +11,7 @@ if __name__ == "__main__":
     model_list.sort()
     for model in model_list:
         md_str = '|'
-        if not model[0] == '.':
+        if len(model) > 5:
             _list = model.split('_')
             if _list[0] == 'darts':
                 md_str += _list[0] + '_' + _list[1]
