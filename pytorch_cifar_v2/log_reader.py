@@ -12,7 +12,7 @@ if __name__ == "__main__":
     for model in model_list:
         md_str = '|'
         if len(model) > 5:
-            md_str += model[0:-30]
+            md_str += model[0:-27]
             # _list = model.split('_')
             # if _list[0] == 'darts':
             #     md_str += _list[0] + '_' + _list[1]
