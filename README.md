@@ -51,7 +51,7 @@ Training different architectures ([PyTorch](http://pytorch.org/)) on the CIFAR10
 
 Training the models in basic train with:
 
-`cd ./pytorch-cifar-basic; python main.py --model_name resnet18`
+`cd ./pytorch-cifar-basic; python main.py --model_name resnet18` 
 
 ### PyTorch-cifar
 
@@ -171,8 +171,15 @@ Training different architectures ([PyTorch](http://pytorch.org/)) on the CIFAR10
 |basic_rescell_36_3_20| 97.1400%| 14.194 M| 1314.504 M|12.8383333|0.4       |0.2      |16    |
 |bottleNeck_rescell_36_3_20| 96.7200%| 14.381 M| 1364.990 M|17.65|0.4       |0.2      |16    |
 
+### PyTorch-imagenet-basic
+
+Code base: [py_cls](https://github.com/facebookresearch/pycls)
+
+Torch version: 1.5.0+cu101
+
 ## Reference
 
 * [pt.darts](https://github.com/khanrc/pt.darts)
 * [darts](https://github.com/quark0/darts)
 * [pytorch-cifar](https://github.com/kuangliu/pytorch-cifar)
+* [py_cls](https://github.com/facebookresearch/pycls)
