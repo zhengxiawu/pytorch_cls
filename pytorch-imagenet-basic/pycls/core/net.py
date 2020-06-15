@@ -23,7 +23,8 @@ def init_weights(m):
         m.weight.data.normal_(mean=0.0, std=math.sqrt(2.0 / fan_out))
     elif isinstance(m, nn.BatchNorm2d):
         zero_init_gamma = cfg.BN.ZERO_INIT_FINAL_GAMMA
-        zero_init_gamma = hasattr(m, "final_bn") and m.final_bn and zero_init_gamma
+        zero_init_gamma = hasattr(
+            m, "final_bn") and m.final_bn and zero_init_gamma
         m.weight.data.fill_(0.0 if zero_init_gamma else 1.0)
         m.bias.data.zero_()
     elif isinstance(m, nn.Linear):
@@ -35,7 +36,8 @@ def init_weights(m):
 def compute_precise_bn_stats(model, loader):
     """Computes precise BN stats on training data."""
     # Compute the number of minibatches to use
-    num_iter = min(cfg.BN.NUM_SAMPLES_PRECISE // loader.batch_size, len(loader))
+    num_iter = min(cfg.BN.NUM_SAMPLES_PRECISE //
+                   loader.batch_size, len(loader))
     # Retrieve the BN layers
     bns = [m for m in model.modules() if isinstance(m, torch.nn.BatchNorm2d)]
     # Initialize stats storage
@@ -124,6 +126,6 @@ def set_flat_weights(model, flat_weights):
     k = 0
     for p in model.parameters():
         n = p.data.numel()
-        p.data.copy_(flat_weights[k : (k + n)].view_as(p.data))
+        p.data.copy_(flat_weights[k: (k + n)].view_as(p.data))
         k += n
     assert k == flat_weights.numel()
