@@ -28,4 +28,4 @@ TEST:
   IM_SIZE: 256
   BATCH_SIZE: 200
 NUM_GPUS: 1
-OUT_DIR: .
+OUT_DIR: ./experiments/mobilenetv2_dds_1gpu
