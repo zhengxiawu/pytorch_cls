@@ -27,5 +27,5 @@ TEST:
   DATASET: imagenet
   IM_SIZE: 256
   BATCH_SIZE: 200
-NUM_GPUS: 8
-OUT_DIR: .
+NUM_GPUS: 4
+OUT_DIR: ./experiments/mobilenetv3large_dds_4gpu
