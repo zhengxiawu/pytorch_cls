@@ -99,9 +99,10 @@ def load_log_data(log_file, data_types_to_skip=()):
     with open(log_file, "r") as f:
         lines = f.readlines()
     # Extract and parse lines that start with _TAG and have a type specified
-    lines = [l[l.find(_TAG) + len(_TAG) :] for l in lines if _TAG in l]
+    lines = [l[l.find(_TAG) + len(_TAG):] for l in lines if _TAG in l]
     lines = [simplejson.loads(l) for l in lines]
-    lines = [l for l in lines if _TYPE in l and not l[_TYPE] in data_types_to_skip]
+    lines = [l for l in lines if _TYPE in l and not l[_TYPE]
+             in data_types_to_skip]
     # Generate data structure accessed by data[data_type][index][metric]
     data_types = [l[_TYPE] for l in lines]
     data = {t: [] for t in data_types}
@@ -111,7 +112,8 @@ def load_log_data(log_file, data_types_to_skip=()):
     # Generate data structure accessed by data[data_type][metric][index]
     for t in data:
         metrics = sorted(data[t][0].keys())
-        err_str = "Inconsistent metrics in log for _type={}: {}".format(t, metrics)
+        err_str = "Inconsistent metrics in log for _type={}: {}".format(
+            t, metrics)
         assert all(sorted(d.keys()) == metrics for d in data[t]), err_str
         data[t] = {m: [d[m] for d in data[t]] for m in metrics}
     return data
@@ -125,7 +127,8 @@ def sort_log_data(data):
             if "iter" in data[t]:
                 i_cur = [float(i.split("/")[0]) for i in data[t]["iter"]]
                 i_max = [float(i.split("/")[1]) for i in data[t]["iter"]]
-                epoch = [e + (ic - 1.0) / im for e, ic, im in zip(epoch, i_cur, i_max)]
+                epoch = [e + (ic - 1.0) / im for e, ic,
+                         im in zip(epoch, i_cur, i_max)]
             for m in data[t]:
                 data[t][m] = [v for _, v in sorted(zip(epoch, data[t][m]))]
         else:

@@ -389,7 +389,7 @@ _C.CFG_DEST = "config.yaml"
 _C.RNG_SEED = 1
 
 # Log destination ('stdout' or 'file')
-_C.LOG_DEST = "stdout"
+_C.LOG_DEST = "file"
 
 # Log period in iters
 _C.LOG_PERIOD = 10
