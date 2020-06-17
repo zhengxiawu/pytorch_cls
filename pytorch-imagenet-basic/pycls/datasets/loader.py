@@ -21,10 +21,11 @@ from torch.utils.data.sampler import RandomSampler
 _DATASETS = {"cifar10": Cifar10, "imagenet": ImageNet}
 
 # Default data directory (/path/pycls/pycls/datasets/data)
-_DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
+# _DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
+_DATA_DIR = "/gdata"
 
 # Relative data paths to default data directory
-_PATHS = {"cifar10": "cifar10", "imagenet": "imagenet"}
+_PATHS = {"cifar10": "cifar10", "imagenet": "ImageNet2012"}
 
 
 def _construct_loader(dataset_name, split, batch_size, shuffle, drop_last):
@@ -75,7 +76,8 @@ def construct_test_loader():
 def shuffle(loader, cur_epoch):
     """"Shuffles the data."""
     err_str = "Sampler type '{}' not supported".format(type(loader.sampler))
-    assert isinstance(loader.sampler, (RandomSampler, DistributedSampler)), err_str
+    assert isinstance(loader.sampler, (RandomSampler,
+                                       DistributedSampler)), err_str
     # RandomSampler handles shuffling automatically
     if isinstance(loader.sampler, DistributedSampler):
         # DistributedSampler shuffles data based on epoch
