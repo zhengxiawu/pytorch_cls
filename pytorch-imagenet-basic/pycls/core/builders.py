@@ -13,10 +13,11 @@ from pycls.models.anynet import AnyNet
 from pycls.models.effnet import EffNet
 from pycls.models.regnet import RegNet
 from pycls.models.resnet import ResNet
+from pycls.models.mobilenet import MobileNet
 
 
 # Supported models
-_models = {"anynet": AnyNet, "effnet": EffNet, "resnet": ResNet, "regnet": RegNet}
+_models = {"anynet": AnyNet, "effnet": EffNet, "resnet": ResNet, "regnet": RegNet, "mobilenet": MobileNet}
 
 # Supported loss functions
 _loss_funs = {"cross_entropy": torch.nn.CrossEntropyLoss}

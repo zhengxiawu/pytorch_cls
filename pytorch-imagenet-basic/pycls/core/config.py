@@ -170,6 +170,50 @@ _C.EN.DC_RATIO = 0.0
 # Dropout ratio
 _C.EN.DROPOUT_RATIO = 0.0
 
+# ------------------------------------------------------------------------------------ #
+# MobileNet options
+# ------------------------------------------------------------------------------------ #
+_C.MB = CfgNode()
+
+# Stem width
+_C.MB.STEM_W = 32
+
+# Stem ACT
+_C.MB.STEM_ACT = 'swish'
+
+# width multiply factor
+_C.MB.WIDTH_MULT = 1.0
+
+# Width for each Blocks
+_C.MB.WIDTHS = []
+
+# Expansion ratios for MBConv blocks
+_C.MB.EXP_RATIOS = []
+
+# Squeeze-and-Excitation (SE) for MBConv blocks
+_C.MB.SE_RARIOS = []
+
+# Activatrions for MBConv blocks
+_C.MB.ACTS = []
+
+# Strides for each MBconv
+_C.MB.STRIDES = []
+
+# Kernel sizes for each MBconv
+_C.MB.KERNELS = []
+
+# Head width
+_C.MB.HEAD_W = [1280]
+
+# Head width
+_C.MB.HEAD_ACTS = []
+
+# Drop connect ratio
+_C.MB.DC_RATIO = 0.0
+
+# Dropout ratio
+_C.MB.DROPOUT_RATIO = 0.0
+
 
 # ------------------------------------------------------------------------------------ #
 # Batch norm options
@@ -411,9 +455,11 @@ def load_cfg_fom_args(description="Config file options."):
     """Load config from command line arguments and set any specified options."""
     parser = argparse.ArgumentParser(description=description)
     help_s = "Config file location"
-    parser.add_argument("--cfg", dest="cfg_file", help=help_s, required=True, type=str)
+    parser.add_argument("--cfg", dest="cfg_file",
+                        help=help_s, required=True, type=str)
     help_s = "See pycls/core/config.py for all options"
-    parser.add_argument("opts", help=help_s, default=None, nargs=argparse.REMAINDER)
+    parser.add_argument("opts", help=help_s, default=None,
+                        nargs=argparse.REMAINDER)
     if len(sys.argv) == 1:
         parser.print_help()
         sys.exit(1)

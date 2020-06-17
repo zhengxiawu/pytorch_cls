@@ -1,0 +1,31 @@
+MODEL:
+  TYPE: mobilenet
+  NUM_CLASSES: 1000
+MB:
+  WIDTH_MULT:  1.0
+  STEM_W:      32
+  STEM_ACT:    'relu'
+  STRIDES:    [1,   2,  1,  2,  1,  1,  2,  1,  1,  1,  1,  1,  1,   2,   1,   1,   1]
+  WIDTHS:     [16, 24, 24, 32, 32, 32, 64, 64, 64, 64, 96, 96, 96, 160, 160, 160, 320]
+  EXP_RATIOS: [1,   6,  6,  6,  6,  6,  6,  6,  6,  6,  6,  6,  6,   6,   6,   6,   6]
+  KERNELS:    [3,   3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,   3,   3,   3,   3]
+  SE_RARIOS:  [0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,   0,   0,   0,   0]
+  ACTS:       ['relu', 'relu', 'relu', 'relu', 'relu', 'relu', 'relu', 'relu', 'relu', 'relu', 'relu', 'relu', 'relu', 'relu', 'relu', 'relu', 'relu']
+  HEAD_W:     [1280]
+  HEAD_ACTS:  ['relu']
+OPTIM:
+  LR_POLICY: cos
+  BASE_LR: 0.4
+  MAX_EPOCH: 100
+  MOMENTUM: 0.9
+  WEIGHT_DECAY: 1e-5
+TRAIN:
+  DATASET: imagenet
+  IM_SIZE: 224
+  BATCH_SIZE: 256
+TEST:
+  DATASET: imagenet
+  IM_SIZE: 256
+  BATCH_SIZE: 200
+NUM_GPUS: 8
+OUT_DIR: .
