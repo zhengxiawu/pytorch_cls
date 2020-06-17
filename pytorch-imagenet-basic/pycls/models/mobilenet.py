@@ -172,6 +172,7 @@ class MBConv(nn.Module):
         super(MBConv, self).__init__()
         self.exp = None
         w_exp = int(w_in * exp_r)
+        w_exp = _make_divisible(w_exp, 8)
         if w_exp != w_in:
             self.exp = nn.Conv2d(w_in, w_exp, 1, stride=1,
                                  padding=0, bias=False)
@@ -187,7 +188,8 @@ class MBConv(nn.Module):
         assert dwise_act in ['relu', 'swish']
         self.dwise_act = get_act(dwise_act)
         if se_r > 0:
-            self.se = SE(w_exp, int(w_exp * se_r))
+            se_c = _make_divisible(w_exp * se_r, 8)
+            self.se = SE(w_exp, int(se_c))
         self.lin_proj = nn.Conv2d(
             w_exp, w_out, 1, stride=1, padding=0, bias=False)
         self.lin_proj_bn = nn.BatchNorm2d(
