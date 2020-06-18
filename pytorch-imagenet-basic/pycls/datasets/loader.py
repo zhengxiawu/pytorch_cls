@@ -13,19 +13,22 @@ import torch
 from pycls.core.config import cfg
 from pycls.datasets.cifar10 import Cifar10
 from pycls.datasets.imagenet import ImageNet
+from pycls.datasets.imagenet import ImageNet_Dataset
 from torch.utils.data.distributed import DistributedSampler
 from torch.utils.data.sampler import RandomSampler
 
 
 # Supported datasets
-_DATASETS = {"cifar10": Cifar10, "imagenet": ImageNet}
+_DATASETS = {"cifar10": Cifar10, "imagenet": ImageNet,
+             "imagenet_dataset": ImageNet_Dataset}
 
 # Default data directory (/path/pycls/pycls/datasets/data)
 # _DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 _DATA_DIR = "/gdata"
 
 # Relative data paths to default data directory
-_PATHS = {"cifar10": "cifar10", "imagenet": "ImageNet2012"}
+_PATHS = {"cifar10": "cifar10", "imagenet": "ImageNet2012",
+          "imagenet_dataset": "ImageNet2012"}
 
 
 def _construct_loader(dataset_name, split, batch_size, shuffle, drop_last):
@@ -34,6 +37,12 @@ def _construct_loader(dataset_name, split, batch_size, shuffle, drop_last):
     assert dataset_name in _DATASETS and dataset_name in _PATHS, err_str
     # Retrieve the data path for the dataset
     data_path = os.path.join(_DATA_DIR, _PATHS[dataset_name])
+    # construct torch or dali dataset
+    # we only support ImageNet now, TODO: other datasets
+    if dataset_name == 'imagenet_dataset':
+        dataset = ImageNet_Dataset(data_path)
+        return dataset
+
     # Construct the dataset
     dataset = _DATASETS[dataset_name](data_path, split)
     # Create a sampler for multi-process training

@@ -338,6 +338,9 @@ _C.DATA_LOADER.NUM_WORKERS = 8
 # Load data to pinned host memory
 _C.DATA_LOADER.PIN_MEMORY = True
 
+# using dali as image reader (more faster)
+_C.DATA_LOADER.USE_DALI = False
+
 
 # ------------------------------------------------------------------------------------ #
 # Memory options

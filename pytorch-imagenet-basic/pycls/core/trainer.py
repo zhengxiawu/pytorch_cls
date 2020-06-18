@@ -154,8 +154,14 @@ def train_model():
         checkpoint.load_checkpoint(cfg.TRAIN.WEIGHTS, model)
         logger.info("Loaded initial weights from: {}".format(cfg.TRAIN.WEIGHTS))
     # Create data loaders and meters
-    train_loader = loader.construct_train_loader()
-    test_loader = loader.construct_test_loader()
+    if cfg.TEST.DATASET == 'imagenet_dataset' or cfg.TRAIN.DATASET == 'imagenet_dataset':
+        dataset = loader.construct_train_loader()
+        train_loader = dataset.train_loader
+        test_loader = dataset.val_loader
+    else:
+        dataset = None
+        train_loader = loader.construct_train_loader()
+        test_loader = loader.construct_test_loader()
     train_meter = meters.TrainMeter(len(train_loader))
     test_meter = meters.TestMeter(len(test_loader))
     # Compute model and loader timings
@@ -173,10 +179,15 @@ def train_model():
         if (cur_epoch + 1) % cfg.TRAIN.CHECKPOINT_PERIOD == 0:
             checkpoint_file = checkpoint.save_checkpoint(model, optimizer, cur_epoch)
             logger.info("Wrote checkpoint to: {}".format(checkpoint_file))
+        # Set dataset to GPU mode, to speed up validation - it's pretty slow otherwise with this new resizing
+        if dataset is not None:
+            dataset.prep_for_val()
         # Evaluate the model
         next_epoch = cur_epoch + 1
         if next_epoch % cfg.TRAIN.EVAL_PERIOD == 0 or next_epoch == cfg.OPTIM.MAX_EPOCH:
             test_epoch(test_loader, model, test_meter, cur_epoch)
+        if dataset is not None:
+            dataset.reset()
 
 
 def test_model():

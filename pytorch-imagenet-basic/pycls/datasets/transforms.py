@@ -45,7 +45,7 @@ def random_crop(im, size, pad_size=0):
     h, w = im.shape[1:]
     y = np.random.randint(0, h - size)
     x = np.random.randint(0, w - size)
-    im_crop = im[:, y : (y + size), x : (x + size)]
+    im_crop = im[:, y: (y + size), x: (x + size)]
     assert im_crop.shape[1:] == (size, size)
     return im_crop
 
@@ -69,7 +69,7 @@ def center_crop(size, im):
     h, w = im.shape[:2]
     y = int(math.ceil((h - size) / 2))
     x = int(math.ceil((w - size) / 2))
-    im_crop = im[y : (y + size), x : (x + size), :]
+    im_crop = im[y: (y + size), x: (x + size), :]
     assert im_crop.shape[:2] == (size, size)
     return im_crop
 
@@ -88,9 +88,10 @@ def random_sized_crop(im, size, area_frac=0.08, max_iter=10):
         if h_crop <= h and w_crop <= w:
             y = 0 if h_crop == h else np.random.randint(0, h - h_crop)
             x = 0 if w_crop == w else np.random.randint(0, w - w_crop)
-            im_crop = im[y : (y + h_crop), x : (x + w_crop), :]
+            im_crop = im[y: (y + h_crop), x: (x + w_crop), :]
             assert im_crop.shape[:2] == (h_crop, w_crop)
-            im_crop = cv2.resize(im_crop, (size, size), interpolation=cv2.INTER_LINEAR)
+            im_crop = cv2.resize(im_crop, (size, size),
+                                 interpolation=cv2.INTER_LINEAR)
             return im_crop.astype(np.float32)
     return center_crop(size, scale(size, im))
 
