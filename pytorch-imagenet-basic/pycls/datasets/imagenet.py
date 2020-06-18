@@ -159,20 +159,20 @@ class ImageNet_Dataset():
 
     def __init__(self,
                  data_dir,
-                 batch_size=cfg.TRAIN.BATCH_SIZE,
-                 size=cfg.TRAIN.IM_SIZE,
-                 val_batch_size=cfg.TEST.BATCH_SIZE,
-                 val_size=cfg.TEST.IM_SIZE,
+                 batch_size=256,
+                 size=224,
+                 val_batch_size=200,
+                 val_size=256,
                  min_crop_size=0.08,
-                 workers=cfg.DATA_LOADER.NUM_WORKERS,
+                 workers=8,
                  world_size=1,
                  cuda=True,
-                 use_dali=cfg.DATA_LOADER.USE_DALI,
+                 use_dali=False,
                  dali_cpu=True,
                  fp16=False,
                  mean=(0.485 * 255, 0.456 * 255, 0.406 * 255),
                  std=(0.229 * 255, 0.224 * 255, 0.225 * 255),
-                 pin_memory=cfg.DATA_LOADER.PIN_MEMORY,
+                 pin_memory=True,
                  pin_memory_dali=False,
                  ):
 
@@ -201,7 +201,6 @@ class ImageNet_Dataset():
         # Data loading code
         self.traindir = os.path.join(data_dir, 'train')
         self.valdir = os.path.join(data_dir, 'val')
-        import pdb; pdb.set_trace()
         # DALI Dataloader
         if self.use_dali:
             logger.info('Using Nvidia DALI dataloader')

@@ -41,7 +41,16 @@ def _construct_loader(dataset_name, split, batch_size, shuffle, drop_last):
     # construct torch or dali dataset
     # we only support ImageNet now, TODO: other datasets
     if dataset_name == 'imagenet_dataset':
-        dataset = ImageNet_Dataset(data_path)
+        dataset = ImageNet_Dataset(data_path,
+                                   batch_size=cfg.TRAIN.BATCH_SIZE,
+                                   size=cfg.TRAIN.IM_SIZE,
+                                   val_batch_size=cfg.TEST.BATCH_SIZE,
+                                   val_size=cfg.TEST.IM_SIZE,
+                                   min_crop_size=0.08,
+                                   workers=cfg.DATA_LOADER.NUM_WORKERS,
+                                   world_size=cfg.NUM_GPUS,
+                                   cuda=True,
+                                   use_dali=cfg.DATA_LOADER.USE_DALI,)
         return dataset
 
     # Construct the dataset
