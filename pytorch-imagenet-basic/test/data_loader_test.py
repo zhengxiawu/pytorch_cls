@@ -32,7 +32,7 @@ if __name__ == "__main__":
     num_workers = 4
     # print('data_loader test')
     # print('using default dataloader')
-    # data_path = '/gdata/ImageNet2012'
+    data_path = '/gdata/ImageNet2012'
     # dataset = ImageNet(data_path, 'train')
     # loader = torch.utils.data.DataLoader(
     #     dataset,
