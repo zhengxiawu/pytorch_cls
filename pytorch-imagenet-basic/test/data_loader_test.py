@@ -8,6 +8,7 @@ from torch.utils.data.distributed import DistributedSampler
 from torch.utils.data.sampler import RandomSampler
 import tqdm
 import numpy as np
+import logging
 
 
 def time_test(loader):
@@ -44,7 +45,7 @@ if __name__ == "__main__":
     # print('mean time is:{}'.format(mean))
     # print('time std is:{}'.format(std))
     for num_workers in range(4, 48, 4):
-        print('using DALI GPU dataloader, Finetune workers')
+        logging.info('using DALI GPU dataloader, Finetune workers')
         dataset = ImageNet_Dataset(data_path,
                                    batch_size=256,
                                    size=224,
@@ -58,8 +59,8 @@ if __name__ == "__main__":
                                    dali_cpu=False)
         loader = dataset.train_loader
         mean, std = time_test(loader)
-        print('mean time is:{}'.format(mean))
-        print('time std is:{}'.format(std))
+        logging.info('mean time is:{}'.format(mean))
+        logging.info('time std is:{}'.format(std))
 
     # print('using DALI CPU dataloader')
     # dataset = ImageNet_Dataset(data_path,
