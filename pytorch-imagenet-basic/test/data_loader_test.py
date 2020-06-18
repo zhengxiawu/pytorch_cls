@@ -29,21 +29,22 @@ def time_test(loader):
 
 
 if __name__ == "__main__":
-    num_workers = 8
-    print('data_loader test')
-    print('using default dataloader')
-    data_path = '/gdata/ImageNet2012'
-    dataset = ImageNet(data_path, 'train')
-    loader = torch.utils.data.DataLoader(
-        dataset,
-        batch_size=256,
-        shuffle=True,
-        num_workers=num_workers,
-        pin_memory=True
-    )
-    mean, std = time_test(loader)
-    print('mean time is:{}'.format(mean))
-    print('time std is:{}'.format(std))
+    num_workers = 4
+    # print('data_loader test')
+    # print('using default dataloader')
+    # data_path = '/gdata/ImageNet2012'
+    # dataset = ImageNet(data_path, 'train')
+    # loader = torch.utils.data.DataLoader(
+    #     dataset,
+    #     batch_size=256,
+    #     shuffle=True,
+    #     num_workers=num_workers,
+    #     pin_memory=True
+    # )
+    # mean, std = time_test(loader)
+    # print('mean time is:{}'.format(mean))
+    # print('time std is:{}'.format(std))
+
     print('using DALI GPU dataloader')
     dataset = ImageNet_Dataset(data_path,
                                batch_size=256,
@@ -57,7 +58,7 @@ if __name__ == "__main__":
                                use_dali=True,
                                dali_cpu=False)
     loader = dataset.train_loader
-    tmean, std = time_test(loader)
+    mean, std = time_test(loader)
     print('mean time is:{}'.format(mean))
     print('time std is:{}'.format(std))
 
