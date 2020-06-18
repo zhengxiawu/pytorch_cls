@@ -20,6 +20,7 @@ def time_test(loader):
         inputs, labels = inputs.cuda(), labels.cuda(non_blocking=True)
         toc_time = time.time()
         batch_time = toc_time - tic_time
+        print(batch_time)
         overall_batch.append(batch_time)
         # print('one batch time is:{}'.format(str(batch_time)))
     overall_batch = np.array(overall_batch)
