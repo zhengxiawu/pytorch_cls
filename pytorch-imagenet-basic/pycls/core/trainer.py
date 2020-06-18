@@ -82,6 +82,7 @@ def train_epoch(train_loader, model, loss_fun, optimizer, train_meter, cur_epoch
     for cur_iter, (inputs, labels) in enumerate(train_loader):
         # Transfer the data to the current GPU device
         inputs, labels = inputs.cuda(), labels.cuda(non_blocking=True)
+        import pdb; pdb.set_trace()
         # Perform the forward pass
         preds = model(inputs)
         # Compute the loss
