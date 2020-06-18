@@ -13,6 +13,8 @@ import numpy as np
 def time_test(loader):
     overall_batch = []
     for cur_iter, (inputs, labels) in enumerate(loader):
+        if cur_iter > 200:
+            break
         tic_time = time.time()
         # Transfer the data to the current GPU device
         inputs, labels = inputs.cuda(), labels.cuda(non_blocking=True)
