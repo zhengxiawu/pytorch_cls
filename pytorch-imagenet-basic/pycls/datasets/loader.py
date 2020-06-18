@@ -93,6 +93,8 @@ def construct_test_loader():
 
 
 def shuffle(loader, cur_epoch):
+    if cfg.TEST.DATASET == 'imagenet_dataset' or cfg.TRAIN.DATASET == 'imagenet_dataset':
+        return
     """"Shuffles the data."""
     err_str = "Sampler type '{}' not supported".format(type(loader.sampler))
     assert isinstance(loader.sampler, (RandomSampler,

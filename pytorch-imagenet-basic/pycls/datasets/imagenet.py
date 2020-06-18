@@ -168,7 +168,7 @@ class ImageNet_Dataset():
                  world_size=1,
                  cuda=True,
                  use_dali=False,
-                 dali_cpu=True,
+                 dali_cpu=False,
                  fp16=False,
                  mean=(0.485 * 255, 0.456 * 255, 0.406 * 255),
                  std=(0.229 * 255, 0.224 * 255, 0.225 * 255),
