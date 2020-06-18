@@ -10,8 +10,7 @@ import tqdm
 import numpy as np
 import logging
 
-logger = logging.getLogger('simple')
-logger.setLevel(logging.DEBUG)
+logging.basicConfig(filename='test.log',level=logging.DEBUG)
 
 
 def time_test(loader):
@@ -55,7 +54,7 @@ if __name__ == "__main__":
     # print('time std is:{}'.format(std))
     logging.info('test')
     for num_workers in range(4, 48, 4):
-        logger.info('using DALI GPU dataloader, Finetune workers')
+        logging.info('using DALI GPU dataloader, Finetune workers')
         dataset = ImageNet_Dataset(data_path,
                                    batch_size=256,
                                    size=224,
@@ -69,8 +68,8 @@ if __name__ == "__main__":
                                    dali_cpu=False)
         loader = dataset.train_loader
         mean, std = time_test(loader)
-        logger.info('mean time is:{}'.format(mean))
-        logger.info('time std is:{}'.format(std))
+        logging.info('mean time is:{}'.format(mean))
+        logging.info('time std is:{}'.format(std))
 
     # print('using DALI CPU dataloader')
     # dataset = ImageNet_Dataset(data_path,
