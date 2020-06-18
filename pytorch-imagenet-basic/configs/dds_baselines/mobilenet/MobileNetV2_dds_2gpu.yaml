@@ -30,6 +30,6 @@ TEST:
 DATA_LOADER:
   NUM_WORKERS: 8
   USE_DALI: True
-NUM_GPUS: 2
-OUT_DIR: ./experiments/mobilenetv2_dds_2gpu
+NUM_GPUS: 4
+OUT_DIR: ./experiments/mobilenetv2_dds_4gpu
 LOG_DEST: 'file'
