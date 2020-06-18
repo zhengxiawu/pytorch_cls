@@ -1,16 +1,18 @@
-import torch
-import pycls.core.config as config
+import logging
 import time
-from pycls.core.config import cfg
-from pycls.datasets.imagenet import ImageNet
-from pycls.datasets.imagenet import ImageNet_Dataset
+
+import numpy as np
+import torch
+import tqdm
 from torch.utils.data.distributed import DistributedSampler
 from torch.utils.data.sampler import RandomSampler
-import tqdm
-import numpy as np
-import logging
 
-logging.basicConfig(filename='test.log',level=logging.DEBUG)
+import pycls.core.config as config
+from pycls.core.config import cfg
+from pycls.datasets.imagenet import ImageNet, ImageNet_Dataset
+
+log_file_name = "{}.log".format(str(time.time()))
+logging.basicConfig(filename=log_file_name, level=logging.DEBUG)
 
 
 def time_test(loader):
