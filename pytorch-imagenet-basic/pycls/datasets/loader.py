@@ -22,6 +22,7 @@ from torch.utils.data.sampler import RandomSampler
 _DATASETS = {"cifar10": Cifar10, "imagenet": ImageNet,
              "imagenet_dataset": ImageNet_Dataset}
 
+
 # Default data directory (/path/pycls/pycls/datasets/data)
 # _DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 _DATA_DIR = "/gdata"

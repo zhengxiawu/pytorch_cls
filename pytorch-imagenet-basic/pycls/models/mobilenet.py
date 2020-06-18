@@ -251,9 +251,9 @@ class MobileNet(nn.Module):
     def __init__(self):
         err_str = "Dataset {} is not supported"
         assert cfg.TRAIN.DATASET in [
-            "imagenet"], err_str.format(cfg.TRAIN.DATASET)
+            "imagenet", "imagenet_dataset"], err_str.format(cfg.TRAIN.DATASET)
         assert cfg.TEST.DATASET in [
-            "imagenet"], err_str.format(cfg.TEST.DATASET)
+            "imagenet", "imagenet_dataset"], err_str.format(cfg.TEST.DATASET)
         super(MobileNet, self).__init__()
         self._construct(**MobileNet.get_args())
         self.apply(net.init_weights)
