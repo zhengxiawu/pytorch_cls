@@ -201,7 +201,7 @@ class ImageNet_Dataset():
         # Data loading code
         self.traindir = os.path.join(data_dir, 'train')
         self.valdir = os.path.join(data_dir, 'val')
-
+        import pdb; pdb.set_trace()
         # DALI Dataloader
         if self.use_dali:
             logger.info('Using Nvidia DALI dataloader')
@@ -217,10 +217,14 @@ class ImageNet_Dataset():
     def _build_torchvision_pipeline(self):
         preproc_train = [torch_transforms.RandomResizedCrop(self.size, scale=(self.min_crop_size, 1.0)),
                          torch_transforms.RandomHorizontalFlip(),
+                         transforms.ToTensor(),
+                         transforms.Normalize(mean=_MEAN, std=_SD),
                          ]
 
         preproc_val = [torch_transforms.Resize(self.val_size),
                        torch_transforms.CenterCrop(self.size),
+                       transforms.ToTensor(),
+                       transforms.Normalize(mean=_MEAN, std=_SD),
                        ]
 
         train_dataset = datasets.ImageFolder(
@@ -231,8 +235,7 @@ class ImageNet_Dataset():
         self.train_sampler = None
         self.val_sampler = None
 
-        if self.world_size > 1:
-            raise NotImplementedError('distributed support not tested yet...')
+        if cfg.NUM_GPUS > 1:
             self.train_sampler = torch.utils.data.distributed.DistributedSampler(
                 train_dataset)
             self.val_sampler = torch.utils.data.distributed.DistributedSampler(

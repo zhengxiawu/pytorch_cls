@@ -179,7 +179,7 @@ _C.MB = CfgNode()
 _C.MB.STEM_W = 32
 
 # Stem ACT
-_C.MB.STEM_ACT = 'swish'
+_C.MB.STEM_ACT = ''
 
 # width multiply factor
 _C.MB.WIDTH_MULT = 1.0
