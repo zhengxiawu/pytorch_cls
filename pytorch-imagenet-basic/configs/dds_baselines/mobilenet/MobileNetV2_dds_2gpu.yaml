@@ -32,3 +32,4 @@ DATA_LOADER:
   USE_DALI: True
 NUM_GPUS: 2
 OUT_DIR: ./experiments/mobilenetv2_dds_2gpu
+LOG_DEST: 'file'
