@@ -44,6 +44,7 @@ if __name__ == "__main__":
     # mean, std = time_test(loader)
     # print('mean time is:{}'.format(mean))
     # print('time std is:{}'.format(std))
+    logging.info('test')
     for num_workers in range(4, 48, 4):
         logging.info('using DALI GPU dataloader, Finetune workers')
         dataset = ImageNet_Dataset(data_path,
