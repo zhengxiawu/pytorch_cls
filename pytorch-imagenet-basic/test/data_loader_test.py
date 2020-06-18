@@ -20,7 +20,7 @@ def time_test(loader):
         batch_time = tic_time - pre_tic_time
         pre_tic_time = tic_time
         # print(batch_time)
-        print(batch_time)
+        # print(batch_time)
         overall_batch.append(batch_time)
         # print('one batch time is:{}'.format(str(batch_time)))
     overall_batch = np.array(overall_batch)
