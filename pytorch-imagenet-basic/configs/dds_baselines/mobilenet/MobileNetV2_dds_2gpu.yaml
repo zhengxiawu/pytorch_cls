@@ -20,11 +20,11 @@ OPTIM:
   MOMENTUM: 0.9
   WEIGHT_DECAY: 1e-5
 TRAIN:
-  DATASET: imagenet
+  DATASET: imagenet_dataset
   IM_SIZE: 224
   BATCH_SIZE: 128
 TEST:
-  DATASET: imagenet
+  DATASET: imagenet_dataset
   IM_SIZE: 256
   BATCH_SIZE: 100
 DATA_LOADER:
