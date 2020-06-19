@@ -22,7 +22,7 @@ OPTIM:
 TRAIN:
   DATASET: imagenet_dataset
   IM_SIZE: 224
-  BATCH_SIZE: 128
+  BATCH_SIZE: 32
 TEST:
   DATASET: imagenet_dataset
   IM_SIZE: 256
