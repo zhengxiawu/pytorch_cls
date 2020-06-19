@@ -326,19 +326,21 @@ class ImageNet_Dataset():
     # This is needed only for DALI
     def reset(self, val_on_cpu=True):
         if self.use_dali:
-            clear_memory()
+            self.train_loader._dali_iterator.reset()
+            self.val_loader._dali_iterator.reset()
+            # clear_memory()
 
-            # Currently we need to delete & rebuild the dali pipeline every epoch,
-            # due to a memory leak somewhere in DALI
-            logger.info('Recreating DALI dataloaders to reduce memory usage')
-            del self.train_loader, self.val_loader, self.train_pipe, self.val_pipe
-            clear_memory()
+            # # Currently we need to delete & rebuild the dali pipeline every epoch,
+            # # due to a memory leak somewhere in DALI
+            # logger.info('Recreating DALI dataloaders to reduce memory usage')
+            # del self.train_loader, self.val_loader, self.train_pipe, self.val_pipe
+            # clear_memory()
 
-            # taken from: https://stackoverflow.com/questions/1254370/reimport-a-module-in-python-while-interactive
-            importlib.reload(dali)
-            from pycls.datasets.dali import HybridTrainPipe, HybridValPipe, DaliIteratorCPU, DaliIteratorGPU
+            # # taken from: https://stackoverflow.com/questions/1254370/reimport-a-module-in-python-while-interactive
+            # importlib.reload(dali)
+            # from pycls.datasets.dali import HybridTrainPipe, HybridValPipe, DaliIteratorCPU, DaliIteratorGPU
 
-            self._build_dali_pipeline(val_on_cpu=val_on_cpu)
+            # self._build_dali_pipeline(val_on_cpu=val_on_cpu)
 
     def set_train_batch_size(self, train_batch_size):
         self.batch_size = train_batch_size
