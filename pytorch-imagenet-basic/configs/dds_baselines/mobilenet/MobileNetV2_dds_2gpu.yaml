@@ -31,6 +31,8 @@ DATA_LOADER:
   NUM_WORKERS: 72
   USE_DALI: True
   WORLD_SIZE: 2
+PREC_TIME:
+  NUM_ITER: 0
 NUM_GPUS: 2
 OUT_DIR: ./experiments/mobilenetv2_dds_2gpu
 LOG_DEST: 'file'
