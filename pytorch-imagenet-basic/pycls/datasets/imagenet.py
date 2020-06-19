@@ -336,7 +336,7 @@ class ImageNet_Dataset():
 
             # taken from: https://stackoverflow.com/questions/1254370/reimport-a-module-in-python-while-interactive
             importlib.reload(dali)
-            from dali import HybridTrainPipe, HybridValPipe, DaliIteratorCPU, DaliIteratorGPU
+            from pycls.datasets.dali import HybridTrainPipe, HybridValPipe, DaliIteratorCPU, DaliIteratorGPU
 
             self._build_dali_pipeline(val_on_cpu=val_on_cpu)
 
