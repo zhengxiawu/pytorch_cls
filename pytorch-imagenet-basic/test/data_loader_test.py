@@ -61,12 +61,13 @@ if __name__ == "__main__":
         print('epoch:{}'.format(str(i)))
         for cur_iter, (inputs, labels) in enumerate(train_loader):
             inputs, labels = inputs.cuda(), labels.cuda(non_blocking=True)
-            if cur_iter > 100:
+            if cur_iter > 10:
                 break
             print('train:'+str(cur_iter))
+        dataset.prep_for_val()
         for cur_iter, (inputs, labels) in enumerate(val_loader):
             inputs, labels = inputs.cuda(), labels.cuda(non_blocking=True)
-            if cur_iter > 100:
+            if cur_iter > 10:
                 break
             print('val:'+str(cur_iter))
         dataset.reset()
