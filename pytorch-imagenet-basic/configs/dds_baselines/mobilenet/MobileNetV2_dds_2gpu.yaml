@@ -28,8 +28,8 @@ TEST:
   IM_SIZE: 256
   BATCH_SIZE: 200
 DATA_LOADER:
-  NUM_WORKERS: 8
+  NUM_WORKERS: 72
   USE_DALI: True
-NUM_GPUS: 4
+NUM_GPUS: 2
 OUT_DIR: ./experiments/mobilenetv2_dds_4gpu
 LOG_DEST: 'file'
