@@ -55,14 +55,20 @@ if __name__ == "__main__":
                                cuda=True,
                                use_dali=True,
                                dali_cpu=False)
-    loader = dataset.train_loader
+    train_loader = dataset.train_loader
+    val_loader = dataset.val_loader
     for i in range(10):
         print('epoch:{}'.format(str(i)))
-        for cur_iter, (inputs, labels) in enumerate(loader):
+        for cur_iter, (inputs, labels) in enumerate(train_loader):
             inputs, labels = inputs.cuda(), labels.cuda(non_blocking=True)
             if cur_iter > 100:
                 break
-            print(cur_iter)
+            print('train:'+str(cur_iter))
+        for cur_iter, (inputs, labels) in enumerate(val_loader):
+            inputs, labels = inputs.cuda(), labels.cuda(non_blocking=True)
+            if cur_iter > 100:
+                break
+            print('val:'+str(cur_iter))
         dataset.reset()
     # for num_workers in range(4, 48, 4):
     #     logging.info('using DALI GPU dataloader, Finetune workers')
