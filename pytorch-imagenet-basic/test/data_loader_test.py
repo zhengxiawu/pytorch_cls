@@ -43,35 +43,44 @@ if __name__ == "__main__":
     # print('data_loader test')
     # print('using default dataloader')
     data_path = '/gdata/ImageNet2012'
-    # dataset = ImageNet(data_path, 'train')
-    # loader = torch.utils.data.DataLoader(
-    #     dataset,
-    #     batch_size=256,
-    #     shuffle=True,
-    #     num_workers=num_workers,
-    #     pin_memory=True
-    # )
-    # mean, std = time_test(loader)
-    # print('mean time is:{}'.format(mean))
-    # print('time std is:{}'.format(std))
     logging.info('test')
-    for num_workers in range(4, 48, 4):
-        logging.info('using DALI GPU dataloader, Finetune workers')
-        dataset = ImageNet_Dataset(data_path,
-                                   batch_size=256,
-                                   size=224,
-                                   val_batch_size=200,
-                                   val_size=256,
-                                   min_crop_size=0.08,
-                                   workers=num_workers,
-                                   world_size=1,
-                                   cuda=True,
-                                   use_dali=True,
-                                   dali_cpu=False)
-        loader = dataset.train_loader
-        mean, std = time_test(loader)
-        logging.info('mean time is:{}'.format(mean))
-        logging.info('time std is:{}'.format(std))
+    dataset = ImageNet_Dataset(data_path,
+                               batch_size=256,
+                               size=224,
+                               val_batch_size=200,
+                               val_size=256,
+                               min_crop_size=0.08,
+                               workers=12,
+                               world_size=1,
+                               cuda=True,
+                               use_dali=True,
+                               dali_cpu=False)
+    loader = dataset.train_loader
+    for i in range(10):
+        print('epoch:{}'.format(str(i)))
+        for cur_iter, (inputs, labels) in enumerate(loader):
+            inputs, labels = inputs.cuda(), labels.cuda(non_blocking=True)
+            if cur_iter > 100:
+                break
+            print(cur_iter)
+        dataset.reset()
+    # for num_workers in range(4, 48, 4):
+    #     logging.info('using DALI GPU dataloader, Finetune workers')
+    #     dataset = ImageNet_Dataset(data_path,
+    #                                batch_size=256,
+    #                                size=224,
+    #                                val_batch_size=200,
+    #                                val_size=256,
+    #                                min_crop_size=0.08,
+    #                                workers=num_workers,
+    #                                world_size=1,
+    #                                cuda=True,
+    #                                use_dali=True,
+    #                                dali_cpu=False)
+    #     loader = dataset.train_loader
+    #     mean, std = time_test(loader)
+    #     logging.info('mean time is:{}'.format(mean))
+    #     logging.info('time std is:{}'.format(std))
 
     # print('using DALI CPU dataloader')
     # dataset = ImageNet_Dataset(data_path,
