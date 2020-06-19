@@ -12,7 +12,7 @@ from pycls.core.config import cfg
 from pycls.datasets.imagenet import ImageNet, ImageNet_Dataset
 
 log_file_name = "{}.log".format(str(time.time()))
-logging.basicConfig(filename=log_file_name, level=logging.DEBUG)
+# logging.basicConfig(filename=log_file_name, level=logging.DEBUG)
 
 
 def time_test(loader):
@@ -43,7 +43,7 @@ if __name__ == "__main__":
     # print('data_loader test')
     # print('using default dataloader')
     data_path = '/gdata/ImageNet2012'
-    logging.info('test')
+    # logging.info('test')
     dataset = ImageNet_Dataset(data_path,
                                batch_size=256,
                                size=224,
