@@ -341,6 +341,9 @@ _C.DATA_LOADER.PIN_MEMORY = True
 # using dali as image reader (more faster)
 _C.DATA_LOADER.USE_DALI = False
 
+# Number of data loader workers per process
+_C.DATA_LOADER.WORLD_SIZE = 1
+
 
 # ------------------------------------------------------------------------------------ #
 # Memory options

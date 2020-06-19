@@ -250,7 +250,7 @@ class ImageNet_Dataset():
             pin_memory=self.pin_memory, sampler=self.val_sampler, collate_fn=fast_collate)
 
     def _build_dali_pipeline(self, val_on_cpu=True):
-        # assert self.world_size == 1, 'Distributed support not tested yet'
+        assert self.world_size == 1, 'Distributed support not tested yet'
 
         iterator_train = DaliIteratorGPU
         if self.dali_cpu:

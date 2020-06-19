@@ -48,7 +48,7 @@ def _construct_loader(dataset_name, split, batch_size, shuffle, drop_last):
                                    val_size=cfg.TEST.IM_SIZE,
                                    min_crop_size=0.08,
                                    workers=cfg.DATA_LOADER.NUM_WORKERS,
-                                   world_size=cfg.NUM_GPUS,
+                                   world_size=cfg.DATA_LOADER.WORLD_SIZE,
                                    cuda=True,
                                    use_dali=cfg.DATA_LOADER.USE_DALI,)
         return dataset
