@@ -22,11 +22,11 @@ OPTIM:
 TRAIN:
   DATASET: imagenet_dataset
   IM_SIZE: 224
-  BATCH_SIZE: 64
+  BATCH_SIZE: 4
 TEST:
   DATASET: imagenet_dataset
   IM_SIZE: 256
-  BATCH_SIZE: 10
+  BATCH_SIZE: 2
 DATA_LOADER:
   NUM_WORKERS: 72
   USE_DALI: True
