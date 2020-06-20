@@ -249,7 +249,7 @@ class ImageNet_Dataset():
             val_dataset, batch_size=self.val_batch_size, shuffle=False, num_workers=self.workers,
             pin_memory=self.pin_memory, sampler=self.val_sampler, collate_fn=fast_collate)
 
-    def _build_dali_pipeline(self, val_on_cpu=True):
+    def _build_dali_pipeline(self, val_on_cpu=False):
         current_device = torch.cuda.current_device()
         # assert self.world_size == 1, 'Distributed support not tested yet'
 
@@ -329,7 +329,7 @@ class ImageNet_Dataset():
         if self.use_dali:
             self.train_loader._dali_iterator.reset()
             self.val_loader._dali_iterator.reset()
-            # clear_memory()
+            clear_memory()
 
             # # Currently we need to delete & rebuild the dali pipeline every epoch,
             # # due to a memory leak somewhere in DALI

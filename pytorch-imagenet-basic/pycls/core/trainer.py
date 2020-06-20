@@ -179,9 +179,6 @@ def train_model():
         if (cur_epoch + 1) % cfg.TRAIN.CHECKPOINT_PERIOD == 0:
             checkpoint_file = checkpoint.save_checkpoint(model, optimizer, cur_epoch)
             logger.info("Wrote checkpoint to: {}".format(checkpoint_file))
-        # Set dataset to GPU mode, to speed up validation - it's pretty slow otherwise with this new resizing
-        if dataset is not None:
-            dataset.prep_for_val()
         # Evaluate the model
         next_epoch = cur_epoch + 1
         if next_epoch % cfg.TRAIN.EVAL_PERIOD == 0 or next_epoch == cfg.OPTIM.MAX_EPOCH:
