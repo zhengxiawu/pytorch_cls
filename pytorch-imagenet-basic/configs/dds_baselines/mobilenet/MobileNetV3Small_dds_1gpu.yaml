@@ -28,7 +28,7 @@ TEST:
   IM_SIZE: 256
   BATCH_SIZE: 200
 DATA_LOADER:
-  NUM_WORKERS: 72
+  NUM_WORKERS: 84
   USE_DALI: True
 NUM_GPUS: 1
 OUT_DIR: ./experiments/mobilenetv3small_dds_1gpu
