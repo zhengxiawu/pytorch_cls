@@ -82,7 +82,6 @@ def train_epoch(train_loader, model, loss_fun, optimizer, train_meter, cur_epoch
     for cur_iter, (inputs, labels) in enumerate(train_loader):
         # Transfer the data to the current GPU device
         inputs, labels = inputs.cuda(), labels.cuda(non_blocking=True)
-        logger.info(inputs.shape)
         # Perform the forward pass
         preds = model(inputs)
         # Compute the loss
@@ -118,7 +117,6 @@ def test_epoch(test_loader, model, test_meter, cur_epoch):
     for cur_iter, (inputs, labels) in enumerate(test_loader):
         # Transfer the data to the current GPU device
         inputs, labels = inputs.cuda(), labels.cuda(non_blocking=True)
-        logger.info(inputs.shape)
         # Compute the predictions
         preds = model(inputs)
         # Compute the errors
