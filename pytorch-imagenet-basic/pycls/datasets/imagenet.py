@@ -250,15 +250,16 @@ class ImageNet_Dataset():
             pin_memory=self.pin_memory, sampler=self.val_sampler, collate_fn=fast_collate)
 
     def _build_dali_pipeline(self, val_on_cpu=True):
+        current_device = torch.cuda.current_device()
         # assert self.world_size == 1, 'Distributed support not tested yet'
 
         iterator_train = DaliIteratorGPU
         if self.dali_cpu:
             iterator_train = DaliIteratorCPU
 
-        self.train_pipe = HybridTrainPipe(batch_size=self.batch_size, num_threads=self.workers, device_id=0,
+        self.train_pipe = HybridTrainPipe(batch_size=self.batch_size, num_threads=self.workers, device_id=current_device,
                                           data_dir=self.traindir, crop=self.size, dali_cpu=self.dali_cpu,
-                                          mean=self.mean, std=self.std, local_rank=0,
+                                          mean=self.mean, std=self.std, local_rank=current_device,
                                           world_size=self.world_size, shuffle=True, fp16=self.fp16, min_crop_size=self.min_crop_size)
 
         self.train_pipe.build()
@@ -269,9 +270,9 @@ class ImageNet_Dataset():
         if val_on_cpu:
             iterator_val = DaliIteratorCPU
 
-        self.val_pipe = HybridValPipe(batch_size=self.val_batch_size, num_threads=self.workers, device_id=0,
+        self.val_pipe = HybridValPipe(batch_size=self.val_batch_size, num_threads=self.workers, device_id=current_device,
                                       data_dir=self.valdir, crop=self.size, size=self.val_size, dali_cpu=val_on_cpu,
-                                      mean=self.mean, std=self.std, local_rank=0,
+                                      mean=self.mean, std=self.std, local_rank=current_device,
                                       world_size=self.world_size, shuffle=False, fp16=self.fp16)
 
         self.val_pipe.build()

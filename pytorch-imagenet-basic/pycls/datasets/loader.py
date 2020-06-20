@@ -42,13 +42,13 @@ def _construct_loader(dataset_name, split, batch_size, shuffle, drop_last):
     # we only support ImageNet now, TODO: other datasets
     if dataset_name == 'imagenet_dataset':
         dataset = ImageNet_Dataset(data_path,
-                                   batch_size=cfg.TRAIN.BATCH_SIZE,
+                                   batch_size=int(cfg.TRAIN.BATCH_SIZE / cfg.NUM_GPUS),
                                    size=cfg.TRAIN.IM_SIZE,
-                                   val_batch_size=cfg.TEST.BATCH_SIZE,
+                                   val_batch_size=int(cfg.TEST.BATCH_SIZE / cfg.NUM_GPUS),
                                    val_size=cfg.TEST.IM_SIZE,
                                    min_crop_size=0.08,
                                    workers=cfg.DATA_LOADER.NUM_WORKERS,
-                                   world_size=cfg.DATA_LOADER.WORLD_SIZE,
+                                   world_size=cfg.NUM_GPUS,
                                    cuda=True,
                                    use_dali=cfg.DATA_LOADER.USE_DALI,)
         return dataset
