@@ -29,7 +29,8 @@ def time_test(loader):
         # print(batch_time)
         # print(batch_time)
         overall_batch.append(batch_time)
-        pre_tic_time = tic_time
+        logging.info(batch_time)
+        pre_tic_time = time.time()
         # print('one batch time is:{}'.format(str(batch_time)))
     overall_batch = np.array(overall_batch)
     return np.mean(overall_batch), np.std(overall_batch)
