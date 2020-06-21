@@ -36,8 +36,7 @@ def init_weights(m):
 def compute_precise_bn_stats(model, loader):
     """Computes precise BN stats on training data."""
     # Compute the number of minibatches to use
-    num_iter = min(cfg.BN.NUM_SAMPLES_PRECISE //
-                   loader.batch_size, len(loader))
+    num_iter = min(cfg.BN.NUM_SAMPLES_PRECISE // loader.batch_size, len(loader))
     # Retrieve the BN layers
     bns = [m for m in model.modules() if isinstance(m, torch.nn.BatchNorm2d)]
     # Initialize stats storage
