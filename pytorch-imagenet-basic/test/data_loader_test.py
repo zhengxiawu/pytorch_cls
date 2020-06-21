@@ -87,7 +87,7 @@ if __name__ == "__main__":
                                    world_size=1,
                                    cuda=True,
                                    use_dali=False,
-                                   dali_cpu=True)
+                                   dali_cpu=False)
         loader = dataset.train_loader
         mean, std = time_test(loader)
         logging.info('mean time is:{}'.format(mean))
