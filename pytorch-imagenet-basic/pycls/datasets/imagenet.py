@@ -362,8 +362,8 @@ class ImageNet_Dataset():
 def fast_collate(batch):
     """Convert batch into tuple of X and Y tensors."""
     imgs = [img[0] for img in batch]
-    targets = torch.tensor([target[1] for target in batch], dtype=torch.int64)
     import pdb; pdb.set_trace()
+    targets = torch.tensor([target[1] for target in batch], dtype=torch.int64)
     w = imgs[0].size[0]
     h = imgs[0].size[1]
     tensor = torch.zeros((len(imgs), 3, h, w), dtype=torch.uint8)
