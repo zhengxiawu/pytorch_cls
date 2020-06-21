@@ -72,7 +72,7 @@ if __name__ == "__main__":
     #             break
     #         print('val:'+str(cur_iter))
     #     dataset.reset()
-    for num_workers in range(56, 100, 4):
+    for num_workers in range(4, 100, 4):
         logging.info('using DALI GPU dataloader, Finetune workers')
         dataset = ImageNet_Dataset(data_path,
                                    batch_size=256,
