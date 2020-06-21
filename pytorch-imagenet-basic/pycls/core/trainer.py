@@ -182,8 +182,10 @@ def train_model():
         # Evaluate the model
         next_epoch = cur_epoch + 1
         if next_epoch % cfg.TRAIN.EVAL_PERIOD == 0 or next_epoch == cfg.OPTIM.MAX_EPOCH:
+            logger.info("Start testing")
             test_epoch(test_loader, model, test_meter, cur_epoch)
         if dataset is not None:
+            logger.info("Reset the dataset")
             dataset.reset()
 
 
