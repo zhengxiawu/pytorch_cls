@@ -75,6 +75,24 @@ if __name__ == "__main__":
     #         print('val:'+str(cur_iter))
     #     dataset.reset()
     for num_workers in range(56, 100, 4):
+        logging.info('using Torch CPU dataloader')
+        logging.info("The number of workers is:{}".format(num_workers))
+        dataset = ImageNet_Dataset(data_path,
+                                   batch_size=256,
+                                   size=224,
+                                   val_batch_size=200,
+                                   val_size=256,
+                                   min_crop_size=0.08,
+                                   workers=num_workers,
+                                   world_size=1,
+                                   cuda=True,
+                                   use_dali=False,
+                                   dali_cpu=True)
+        loader = dataset.train_loader
+        mean, std = time_test(loader)
+        logging.info('mean time is:{}'.format(mean))
+        logging.info('time std is:{}'.format(std))
+        
         logging.info('using DALI GPU dataloader, Finetune workers')
         logging.info("The number of workers is:{}".format(num_workers))
         dataset = ImageNet_Dataset(data_path,
@@ -111,20 +129,4 @@ if __name__ == "__main__":
         logging.info('mean time is:{}'.format(mean))
         logging.info('time std is:{}'.format(std))
 
-        logging.info('using Torch CPU dataloader')
-        logging.info("The number of workers is:{}".format(num_workers))
-        dataset = ImageNet_Dataset(data_path,
-                                   batch_size=256,
-                                   size=224,
-                                   val_batch_size=200,
-                                   val_size=256,
-                                   min_crop_size=0.08,
-                                   workers=num_workers,
-                                   world_size=1,
-                                   cuda=True,
-                                   use_dali=False,
-                                   dali_cpu=True)
-        loader = dataset.train_loader
-        mean, std = time_test(loader)
-        logging.info('mean time is:{}'.format(mean))
-        logging.info('time std is:{}'.format(std))
+        
