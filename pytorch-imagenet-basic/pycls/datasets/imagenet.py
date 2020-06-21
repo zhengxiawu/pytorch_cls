@@ -243,11 +243,11 @@ class ImageNet_Dataset():
         self.train_loader = torch.utils.data.DataLoader(
             train_dataset, batch_size=self.batch_size, shuffle=(
                 self.train_sampler is None),
-            num_workers=self.workers, pin_memory=self.pin_memory, sampler=self.train_sampler, collate_fn=fast_collate)
+            num_workers=self.workers, pin_memory=self.pin_memory, sampler=self.train_sampler)
 
         self.val_loader = torch.utils.data.DataLoader(
             val_dataset, batch_size=self.val_batch_size, shuffle=False, num_workers=self.workers,
-            pin_memory=self.pin_memory, sampler=self.val_sampler, collate_fn=fast_collate)
+            pin_memory=self.pin_memory, sampler=self.val_sampler)
 
     def _build_dali_pipeline(self, val_on_cpu=True):
         current_device = torch.cuda.current_device()
@@ -362,9 +362,6 @@ class ImageNet_Dataset():
 def fast_collate(batch):
     """Convert batch into tuple of X and Y tensors."""
     imgs = [img[0] for img in batch]
-    print(imgs)
-    import pdb
-    pdb.set_trace()
     targets = torch.tensor([target[1] for target in batch], dtype=torch.int64)
     w = imgs[0].size[0]
     h = imgs[0].size[1]
