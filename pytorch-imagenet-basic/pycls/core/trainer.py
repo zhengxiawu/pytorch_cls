@@ -8,6 +8,7 @@
 """Tools for training and testing a model."""
 
 import os
+import gc
 
 import numpy as np
 import pycls.core.benchmark as benchmark
@@ -94,7 +95,8 @@ def train_epoch(train_loader, model, loss_fun, optimizer, train_meter, cur_epoch
         # Compute the errors
         top1_err, top5_err = meters.topk_errors(preds, labels, [1, 5])
         # Combine the stats across the GPUs (no reduction if 1 GPU used)
-        loss, top1_err, top5_err = dist.scaled_all_reduce([loss, top1_err, top5_err])
+        loss, top1_err, top5_err = dist.scaled_all_reduce(
+            [loss, top1_err, top5_err])
         # Copy the stats from GPU to CPU (sync point)
         loss, top1_err, top5_err = loss.item(), top1_err.item(), top5_err.item()
         train_meter.iter_toc()
@@ -127,7 +129,8 @@ def test_epoch(test_loader, model, test_meter, cur_epoch):
         top1_err, top5_err = top1_err.item(), top5_err.item()
         test_meter.iter_toc()
         # Update and log stats
-        test_meter.update_stats(top1_err, top5_err, inputs.size(0) * cfg.NUM_GPUS)
+        test_meter.update_stats(
+            top1_err, top5_err, inputs.size(0) * cfg.NUM_GPUS)
         test_meter.log_iter_stats(cur_epoch, cur_iter)
         test_meter.iter_tic()
     # Log epoch stats
@@ -147,12 +150,14 @@ def train_model():
     start_epoch = 0
     if cfg.TRAIN.AUTO_RESUME and checkpoint.has_checkpoint():
         last_checkpoint = checkpoint.get_last_checkpoint()
-        checkpoint_epoch = checkpoint.load_checkpoint(last_checkpoint, model, optimizer)
+        checkpoint_epoch = checkpoint.load_checkpoint(
+            last_checkpoint, model, optimizer)
         logger.info("Loaded checkpoint from: {}".format(last_checkpoint))
         start_epoch = checkpoint_epoch + 1
     elif cfg.TRAIN.WEIGHTS:
         checkpoint.load_checkpoint(cfg.TRAIN.WEIGHTS, model)
-        logger.info("Loaded initial weights from: {}".format(cfg.TRAIN.WEIGHTS))
+        logger.info("Loaded initial weights from: {}".format(
+            cfg.TRAIN.WEIGHTS))
     # Create data loaders and meters
     if cfg.TEST.DATASET == 'imagenet_dataset' or cfg.TRAIN.DATASET == 'imagenet_dataset':
         dataset = loader.construct_train_loader()
@@ -171,13 +176,15 @@ def train_model():
     logger.info("Start epoch: {}".format(start_epoch + 1))
     for cur_epoch in range(start_epoch, cfg.OPTIM.MAX_EPOCH):
         # Train for one epoch
-        train_epoch(train_loader, model, loss_fun, optimizer, train_meter, cur_epoch)
+        train_epoch(train_loader, model, loss_fun,
+                    optimizer, train_meter, cur_epoch)
         # Compute precise BN stats
         if cfg.BN.USE_PRECISE_STATS:
             net.compute_precise_bn_stats(model, train_loader)
         # Save a checkpoint
         if (cur_epoch + 1) % cfg.TRAIN.CHECKPOINT_PERIOD == 0:
-            checkpoint_file = checkpoint.save_checkpoint(model, optimizer, cur_epoch)
+            checkpoint_file = checkpoint.save_checkpoint(
+                model, optimizer, cur_epoch)
             logger.info("Wrote checkpoint to: {}".format(checkpoint_file))
         # Evaluate the model
         next_epoch = cur_epoch + 1
@@ -186,7 +193,13 @@ def train_model():
             test_epoch(test_loader, model, test_meter, cur_epoch)
         if dataset is not None:
             logger.info("Reset the dataset")
-            dataset.reset()
+            train_loader.reset()
+            test_loader.reset()
+            # clear memory
+            if torch.cuda.is_available():
+                torch.cuda.synchronize()
+                torch.cuda.empty_cache()  # https://forums.fast.ai/t/clearing-gpu-memory-pytorch/14637
+            gc.collect()
 
 
 def test_model():
