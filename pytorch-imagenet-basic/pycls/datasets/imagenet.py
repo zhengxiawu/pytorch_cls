@@ -216,14 +216,14 @@ class ImageNet_Dataset():
     def _build_torchvision_pipeline(self):
         preproc_train = [torch_transforms.RandomResizedCrop(self.size, scale=(self.min_crop_size, 1.0)),
                          torch_transforms.RandomHorizontalFlip(),
-                         transforms.ToTensor(),
-                         transforms.Normalize(mean=_MEAN, std=_SD),
+                         torch_transforms.ToTensor(),
+                         torch_transforms.Normalize(mean=_MEAN, std=_SD),
                          ]
 
         preproc_val = [torch_transforms.Resize(self.val_size),
                        torch_transforms.CenterCrop(self.size),
-                       transforms.ToTensor(),
-                       transforms.Normalize(mean=_MEAN, std=_SD),
+                       torch_transforms.ToTensor(),
+                       torch_transforms.Normalize(mean=_MEAN, std=_SD),
                        ]
 
         train_dataset = datasets.ImageFolder(
