@@ -193,8 +193,8 @@ def train_model():
             test_epoch(test_loader, model, test_meter, cur_epoch)
         if dataset is not None:
             logger.info("Reset the dataset")
-            train_loader.reset()
-            test_loader.reset()
+            train_loader._dali_iterator.reset()
+            test_loader._dali_iterator.reset()
             # clear memory
             if torch.cuda.is_available():
                 torch.cuda.synchronize()
