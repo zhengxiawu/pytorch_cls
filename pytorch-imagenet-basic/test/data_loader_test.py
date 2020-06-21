@@ -83,7 +83,7 @@ if __name__ == "__main__":
                                    val_batch_size=200,
                                    val_size=256,
                                    min_crop_size=0.08,
-                                   workers=num_workers,
+                                   workers=1,
                                    world_size=1,
                                    cuda=True,
                                    use_dali=False,
