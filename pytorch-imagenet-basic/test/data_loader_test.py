@@ -76,6 +76,7 @@ if __name__ == "__main__":
     #     dataset.reset()
     for num_workers in range(56, 100, 4):
         logging.info('using DALI GPU dataloader, Finetune workers')
+        logging.info("The number of workers is:{}".format(num_workers))
         dataset = ImageNet_Dataset(data_path,
                                    batch_size=256,
                                    size=224,
@@ -93,6 +94,7 @@ if __name__ == "__main__":
         logging.info('time std is:{}'.format(std))
 
         logging.info('using DALI CPU dataloader')
+        logging.info("The number of workers is:{}".format(num_workers))
         dataset = ImageNet_Dataset(data_path,
                                    batch_size=256,
                                    size=224,
@@ -110,6 +112,7 @@ if __name__ == "__main__":
         logging.info('time std is:{}'.format(std))
 
         logging.info('using Torch CPU dataloader')
+        logging.info("The number of workers is:{}".format(num_workers))
         dataset = ImageNet_Dataset(data_path,
                                    batch_size=256,
                                    size=224,
