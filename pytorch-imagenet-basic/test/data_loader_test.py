@@ -28,7 +28,6 @@ def time_test(loader):
         # print(batch_time)
         overall_batch.append(batch_time)
         pre_tic_time = tic_time
-        logging.info(batch_time)
         # print('one batch time is:{}'.format(str(batch_time)))
     overall_batch = np.array(overall_batch)
     return np.mean(overall_batch), np.std(overall_batch)
@@ -73,7 +72,7 @@ if __name__ == "__main__":
     #             break
     #         print('val:'+str(cur_iter))
     #     dataset.reset()
-    for num_workers in range(56, 100, 4):
+    for num_workers in range(56, 96, 8):
         logging.info('using Torch CPU dataloader')
         logging.info("The number of workers is:{}".format(num_workers))
         dataset = ImageNet_Dataset(data_path,
