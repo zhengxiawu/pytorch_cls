@@ -249,7 +249,7 @@ class ImageNet_Dataset():
             val_dataset, batch_size=self.val_batch_size, shuffle=False, num_workers=self.workers,
             pin_memory=self.pin_memory, sampler=self.val_sampler, collate_fn=fast_collate)
 
-    def _build_dali_pipeline(self, val_on_cpu=False):
+    def _build_dali_pipeline(self, val_on_cpu=True):
         current_device = torch.cuda.current_device()
         # assert self.world_size == 1, 'Distributed support not tested yet'
 
