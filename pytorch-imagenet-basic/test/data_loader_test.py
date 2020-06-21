@@ -92,7 +92,7 @@ if __name__ == "__main__":
         mean, std = time_test(loader)
         logging.info('mean time is:{}'.format(mean))
         logging.info('time std is:{}'.format(std))
-        
+
         logging.info('using DALI GPU dataloader, Finetune workers')
         logging.info("The number of workers is:{}".format(num_workers))
         dataset = ImageNet_Dataset(data_path,
@@ -128,5 +128,3 @@ if __name__ == "__main__":
         mean, std = time_test(loader)
         logging.info('mean time is:{}'.format(mean))
         logging.info('time std is:{}'.format(std))
-
-        
