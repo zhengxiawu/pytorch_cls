@@ -20,8 +20,6 @@ def time_test(loader):
     overall_batch = []
     pre_tic_time = time.time()
     for cur_iter, (inputs, labels) in enumerate(loader):
-        if cur_iter > 10000:
-            break
         tic_time = time.time()
         # Transfer the data to the current GPU device
         inputs, labels = inputs.cuda(), labels.cuda(non_blocking=True)
@@ -84,7 +82,7 @@ if __name__ == "__main__":
                                    val_batch_size=200,
                                    val_size=256,
                                    min_crop_size=0.08,
-                                   workers=1,
+                                   workers=num_workers,
                                    world_size=1,
                                    cuda=True,
                                    use_dali=False,
