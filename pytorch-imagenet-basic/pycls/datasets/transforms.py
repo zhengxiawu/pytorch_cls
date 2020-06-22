@@ -125,9 +125,8 @@ def torch_lighting(im, alpha_std):
     alpha = np.repeat(alpha, 3, axis=0)
     eig_val = np.repeat(eig_val, 3, axis=0)
     rgb = np.sum(eig_vec * alpha * eig_val, axis=1)
+    rgb = rgb * 255.
     rgb = torch.tensor(rgb).cuda()
-    import pdb
-    pdb.set_trace()
     for i in range(im.shape[1]):
-        im[:, i, :, :] = im[:, i, :, :] + (rgb[i] * 255.)
+        im[:, i, :, :] = im[:, i, :, :] + rgb[i]
     return im
