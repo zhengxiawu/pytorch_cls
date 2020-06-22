@@ -28,6 +28,7 @@ DATA_LOADER:
   USE_DALI: True
   WORLD_SIZE: 1
   DALI_CPU: True
+  PCA_JITTER: True
 NUM_GPUS: 4
-OUT_DIR: ./experiments/EN-B0_dds_4gpu
+OUT_DIR: ./experiments/EN-B0_dds_4gpu_color_PCA
 LOG_DEST: 'file'

@@ -51,7 +51,8 @@ def _construct_loader(dataset_name, split, batch_size, shuffle, drop_last):
                                    world_size=cfg.NUM_GPUS,
                                    cuda=True,
                                    use_dali=cfg.DATA_LOADER.USE_DALI,
-                                   dali_cpu=cfg.DATA_LOADER.DALI_CPU)
+                                   dali_cpu=cfg.DATA_LOADER.DALI_CPU,
+                                   pca_jitter=cfg.DATA_LOADER.PCA_JITTER)
         return dataset
 
     # Construct the dataset
