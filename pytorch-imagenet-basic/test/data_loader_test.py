@@ -74,6 +74,7 @@ if __name__ == "__main__":
     #             break
     #         print('val:'+str(cur_iter))
     #     dataset.reset()
+    # time test
     for num_workers in range(56, 96, 8):
         # logging.info('using Torch CPU dataloader')
         # logging.info("The number of workers is:{}".format(num_workers))

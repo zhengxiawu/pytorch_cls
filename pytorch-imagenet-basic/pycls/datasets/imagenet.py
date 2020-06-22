@@ -174,6 +174,7 @@ class ImageNet_Dataset():
                  std=(0.229 * 255, 0.224 * 255, 0.225 * 255),
                  pin_memory=True,
                  pin_memory_dali=False,
+                 pca_jitter=False
                  ):
 
         self.batch_size = batch_size
@@ -190,6 +191,7 @@ class ImageNet_Dataset():
         self.std = std
         self.pin_memory = pin_memory
         self.pin_memory_dali = pin_memory_dali
+        self.pca_jitter = pca_jitter
 
         self.val_size = val_size
         if self.val_size is None:
@@ -210,6 +212,7 @@ class ImageNet_Dataset():
 
         # Standard torchvision dataloader
         else:
+            assert not pca_jitter, "Currently the pca_jitter only support dali_cpu model"
             logger.info('Using torchvision dataloader')
             self._build_torchvision_pipeline()
 
@@ -256,6 +259,8 @@ class ImageNet_Dataset():
         iterator_train = DaliIteratorGPU
         if self.dali_cpu:
             iterator_train = DaliIteratorCPU
+        else:
+            assert not self.pca_jitter, "Currently the pca_jitter only support dali_cpu model"
 
         self.train_pipe = HybridTrainPipe(batch_size=self.batch_size, num_threads=self.workers, device_id=current_device,
                                           data_dir=self.traindir, crop=self.size, dali_cpu=self.dali_cpu,
@@ -264,7 +269,7 @@ class ImageNet_Dataset():
 
         self.train_pipe.build()
         self.train_loader = iterator_train(pipelines=self.train_pipe, size=self.get_nb_train(
-        ) / self.world_size, fp16=self.fp16, mean=self.mean, std=self.std, pin_memory=self.pin_memory_dali)
+        ) / self.world_size, fp16=self.fp16, mean=self.mean, std=self.std, pin_memory=self.pin_memory_dali, pca_jitter=self.pca_jitter)
 
         iterator_val = DaliIteratorGPU
         if val_on_cpu:

@@ -11,6 +11,7 @@ import math
 
 import cv2
 import numpy as np
+import torch
 
 
 def color_norm(im, mean, std):
@@ -106,4 +107,27 @@ def lighting(im, alpha_std, eig_val, eig_vec):
     rgb = np.sum(eig_vec * alpha * eig_val, axis=1)
     for i in range(im.shape[0]):
         im[i] = im[i] + rgb[2 - i]
+    return im
+
+
+def torch_lighting(im, alpha_std):
+    """Performs AlexNet-style PCA jitter (NCHW format). torch version"""
+    "In our dataloader im is NCHW with RGB format"
+    eig_val = np.array([[0.2175, 0.0188, 0.0045]])
+    eig_vec = np.array(
+        [[-0.5675,  0.7192,  0.4009],
+         [-0.5808, -0.0045, -0.8140],
+         [-0.5836, -0.6948,  0.4203]]
+    )
+    if alpha_std == 0:
+        return im
+    alpha = np.random.normal(0, alpha_std, size=(1, 3))
+    alpha = np.repeat(alpha, 3, axis=0)
+    eig_val = np.repeat(eig_val, 3, axis=0)
+    rgb = np.sum(eig_vec * alpha * eig_val, axis=1)
+    rgb = torch.tensor(rgb).cuda()
+    import pdb
+    pdb.set_trace()
+    for i in range(im.shape[1]):
+        im[:, i, :, :] = im[:, i, :, :] + (rgb[i] * 255.)
     return im

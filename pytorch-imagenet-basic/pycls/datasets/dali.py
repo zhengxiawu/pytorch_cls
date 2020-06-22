@@ -7,6 +7,7 @@ import math
 import threading
 from torch.multiprocessing import Event
 from torch._six import queue
+from pycls.datasets.transforms import torch_lighting
 
 try:
     from nvidia.dali.plugin.pytorch import DALIClassificationIterator
@@ -240,55 +241,6 @@ class DaliIteratorGPU(DaliIterator):
         return input, target
 
 
-def _preproc_worker(dali_iterator, cuda_stream, fp16, mean, std, output_queue, proc_next_input, done_event, pin_memory):
-    """
-    Worker function to parse DALI output & apply final pre-processing steps
-    """
-
-    while not done_event.is_set():
-        # Wait until main thread signals to proc_next_input -- normally once it has taken the last processed input
-        proc_next_input.wait()
-        proc_next_input.clear()
-
-        if done_event.is_set():
-            print('Shutting down preproc thread')
-            break
-
-        try:
-            data = next(dali_iterator)
-
-            # Decode the data output
-            input_orig = data[0]['data']
-            # DALI should already output target on device
-            target = data[0]['label'].squeeze().long()
-
-            # Copy to GPU and apply final processing in separate CUDA stream
-            with torch.cuda.stream(cuda_stream):
-                input = input_orig
-                if pin_memory:
-                    input = input.pin_memory()
-                    del input_orig  # Save memory
-                input = input.cuda(non_blocking=True)
-
-                input = input.permute(0, 3, 1, 2)
-
-                # Input tensor is kept as 8-bit integer for transfer to GPU, to save bandwidth
-                if fp16:
-                    input = input.half()
-                else:
-                    input = input.float()
-
-                input = input.sub_(mean).div_(std)
-
-            # Put the result on the queue
-            output_queue.put((input, target))
-
-        except StopIteration:
-            print('Resetting DALI loader')
-            dali_iterator.reset()
-            output_queue.put(None)
-
-
 class DaliIteratorCPU(DaliIterator):
     """
     Wrapper class to decode the DALI iterator output & provide iterator that functions the same as torchvision
@@ -302,7 +254,7 @@ class DaliIteratorCPU(DaliIterator):
     pin_memory (bool): Transfer input tensor to pinned memory, before moving to GPU
     """
 
-    def __init__(self, fp16=False, mean=(0., 0., 0.), std=(1., 1., 1.), pin_memory=True, **kwargs):
+    def __init__(self, fp16=False, mean=(0., 0., 0.), std=(1., 1., 1.), pin_memory=True, pca_jitter=False, **kwargs):
         super().__init__(**kwargs)
         print('Using DALI CPU iterator')
         self.stream = torch.cuda.Stream()
@@ -311,6 +263,7 @@ class DaliIteratorCPU(DaliIterator):
         self.mean = torch.tensor(mean).cuda().view(1, 3, 1, 1)
         self.std = torch.tensor(std).cuda().view(1, 3, 1, 1)
         self.pin_memory = pin_memory
+        self.pca_jitter = pca_jitter
 
         if self.fp16:
             self.mean = self.mean.half()
@@ -321,7 +274,7 @@ class DaliIteratorCPU(DaliIterator):
         self.output_queue = queue.Queue(maxsize=5)
         self.preproc_thread = threading.Thread(
             target=_preproc_worker,
-            kwargs={'dali_iterator': self._dali_iterator, 'cuda_stream': self.stream, 'fp16': self.fp16, 'mean': self.mean, 'std': self.std, 'proc_next_input': self.proc_next_input, 'done_event': self.done_event, 'output_queue': self.output_queue, 'pin_memory': self.pin_memory})
+            kwargs={'dali_iterator': self._dali_iterator, 'cuda_stream': self.stream, 'fp16': self.fp16, 'mean': self.mean, 'std': self.std, 'proc_next_input': self.proc_next_input, 'done_event': self.done_event, 'output_queue': self.output_queue, 'pin_memory': self.pin_memory, 'pca_jitter': self.pca_jitter})
         self.preproc_thread.daemon = True
         self.preproc_thread.start()
 
@@ -391,3 +344,54 @@ class DaliIteratorCPUNoPrefetch(DaliIterator):
 
         input = input.sub_(self.mean).div_(self.std)
         return input, target
+
+
+def _preproc_worker(dali_iterator, cuda_stream, fp16, mean, std, output_queue, proc_next_input, done_event, pin_memory, pca_jitter=False):
+    """
+    Worker function to parse DALI output & apply final pre-processing steps
+    """
+
+    while not done_event.is_set():
+        # Wait until main thread signals to proc_next_input -- normally once it has taken the last processed input
+        proc_next_input.wait()
+        proc_next_input.clear()
+
+        if done_event.is_set():
+            print('Shutting down preproc thread')
+            break
+
+        try:
+            data = next(dali_iterator)
+
+            # Decode the data output
+            input_orig = data[0]['data']
+            # DALI should already output target on device
+            target = data[0]['label'].squeeze().long()
+
+            # Copy to GPU and apply final processing in separate CUDA stream
+            with torch.cuda.stream(cuda_stream):
+                input = input_orig
+                if pin_memory:
+                    input = input.pin_memory()
+                    del input_orig  # Save memory
+                input = input.cuda(non_blocking=True)
+
+                input = input.permute(0, 3, 1, 2)
+
+                # Input tensor is kept as 8-bit integer for transfer to GPU, to save bandwidth
+                if fp16:
+                    input = input.half()
+                else:
+                    input = input.float()
+                if pca_jitter:
+                    input = torch_lighting(input, 0.1)
+
+                input = input.sub_(mean).div_(std)
+
+            # Put the result on the queue
+            output_queue.put((input, target))
+
+        except StopIteration:
+            print('Resetting DALI loader')
+            dali_iterator.reset()
+            output_queue.put(None)
