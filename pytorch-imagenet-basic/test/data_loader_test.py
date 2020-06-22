@@ -42,24 +42,25 @@ def output_in_file(_str, filename):
 
 
 if __name__ == "__main__":
-    # num_workers = 4
-    # print('data_loader test')
-    # print('using default dataloader')
     data_path = '/gdata/ImageNet2012'
+    dataset = ImageNet_Dataset(data_path,
+                               batch_size=256,
+                               size=224,
+                               val_batch_size=200,
+                               val_size=256,
+                               min_crop_size=0.08,
+                               workers=4,
+                               world_size=1,
+                               cuda=True,
+                               use_dali=True,
+                               dali_cpu=True,
+                               pca_jitter=True)
+    for cur_iter, (inputs, labels) in enumerate(dataset.train_loader):
+        inputs, labels = inputs.cuda(), labels.cuda(non_blocking=True)
+        if cur_iter > 10:
+            break
+        print('train:'+str(cur_iter))
     # logging.info('test')
-    # dataset = ImageNet_Dataset(data_path,
-    #                            batch_size=256,
-    #                            size=224,
-    #                            val_batch_size=200,
-    #                            val_size=256,
-    #                            min_crop_size=0.08,
-    #                            workers=12,
-    #                            world_size=1,
-    #                            cuda=True,
-    #                            use_dali=True,
-    #                            dali_cpu=False)
-    # train_loader = dataset.train_loader
-    # val_loader = dataset.val_loader
     # for i in range(10):
     #     print('epoch:{}'.format(str(i)))
     #     for cur_iter, (inputs, labels) in enumerate(train_loader):
@@ -75,61 +76,61 @@ if __name__ == "__main__":
     #         print('val:'+str(cur_iter))
     #     dataset.reset()
     # time test
-    for num_workers in range(56, 96, 8):
-        # logging.info('using Torch CPU dataloader')
-        # logging.info("The number of workers is:{}".format(num_workers))
-        # dataset = ImageNet_Dataset(data_path,
-        #                            batch_size=256,
-        #                            size=224,
-        #                            val_batch_size=200,
-        #                            val_size=256,
-        #                            min_crop_size=0.08,
-        #                            workers=num_workers,
-        #                            world_size=1,
-        #                            cuda=True,
-        #                            use_dali=False,
-        #                            dali_cpu=False)
-        # loader = dataset.train_loader
-        # mean, std = time_test(loader)
-        # logging.info('mean time is:{}'.format(mean))
-        # logging.info('time std is:{}'.format(std))
+    # for num_workers in range(56, 96, 8):
+    #     # logging.info('using Torch CPU dataloader')
+    #     # logging.info("The number of workers is:{}".format(num_workers))
+    #     # dataset = ImageNet_Dataset(data_path,
+    #     #                            batch_size=256,
+    #     #                            size=224,
+    #     #                            val_batch_size=200,
+    #     #                            val_size=256,
+    #     #                            min_crop_size=0.08,
+    #     #                            workers=num_workers,
+    #     #                            world_size=1,
+    #     #                            cuda=True,
+    #     #                            use_dali=False,
+    #     #                            dali_cpu=False)
+    #     # loader = dataset.train_loader
+    #     # mean, std = time_test(loader)
+    #     # logging.info('mean time is:{}'.format(mean))
+    #     # logging.info('time std is:{}'.format(std))
 
-        logging.info('using DALI GPU dataloader, Finetune workers')
-        logging.info("The number of workers is:{}".format(num_workers))
-        dataset = ImageNet_Dataset(data_path,
-                                   batch_size=256,
-                                   size=224,
-                                   val_batch_size=200,
-                                   val_size=256,
-                                   min_crop_size=0.08,
-                                   workers=num_workers,
-                                   world_size=1,
-                                   cuda=True,
-                                   use_dali=True,
-                                   dali_cpu=False)
-        loader = dataset.train_loader
-        mean, std = time_test(loader)
-        logging.info('mean time is:{}'.format(mean))
-        logging.info('time std is:{}'.format(std))
+    #     logging.info('using DALI GPU dataloader, Finetune workers')
+    #     logging.info("The number of workers is:{}".format(num_workers))
+    #     dataset = ImageNet_Dataset(data_path,
+    #                                batch_size=256,
+    #                                size=224,
+    #                                val_batch_size=200,
+    #                                val_size=256,
+    #                                min_crop_size=0.08,
+    #                                workers=num_workers,
+    #                                world_size=1,
+    #                                cuda=True,
+    #                                use_dali=True,
+    #                                dali_cpu=False)
+    #     loader = dataset.train_loader
+    #     mean, std = time_test(loader)
+    #     logging.info('mean time is:{}'.format(mean))
+    #     logging.info('time std is:{}'.format(std))
 
-        del dataset
+    #     del dataset
 
-        logging.info('using DALI CPU dataloader')
-        logging.info("The number of workers is:{}".format(num_workers))
-        dataset = ImageNet_Dataset(data_path,
-                                   batch_size=256,
-                                   size=224,
-                                   val_batch_size=200,
-                                   val_size=256,
-                                   min_crop_size=0.08,
-                                   workers=num_workers,
-                                   world_size=1,
-                                   cuda=True,
-                                   use_dali=True,
-                                   dali_cpu=True)
-        loader = dataset.train_loader
-        mean, std = time_test(loader)
-        logging.info('mean time is:{}'.format(mean))
-        logging.info('time std is:{}'.format(std))
+    #     logging.info('using DALI CPU dataloader')
+    #     logging.info("The number of workers is:{}".format(num_workers))
+    #     dataset = ImageNet_Dataset(data_path,
+    #                                batch_size=256,
+    #                                size=224,
+    #                                val_batch_size=200,
+    #                                val_size=256,
+    #                                min_crop_size=0.08,
+    #                                workers=num_workers,
+    #                                world_size=1,
+    #                                cuda=True,
+    #                                use_dali=True,
+    #                                dali_cpu=True)
+    #     loader = dataset.train_loader
+    #     mean, std = time_test(loader)
+    #     logging.info('mean time is:{}'.format(mean))
+    #     logging.info('time std is:{}'.format(std))
 
-        del dataset
+    #     del dataset
