@@ -2,8 +2,8 @@ from pycls.core.plotting import plot_error_curves_plotly, plot_error_curves_pypl
 import argparse
 
 if __name__ == "__main__":
-    log_file_name = ['./experiments/mobilenetv2_dds_2gpu/stdout.log']
-    name = ['MBV2']
-    filename = './experiments/mobilenetv2_dds_2gpu/result.png'
+    log_file_name = ['./experiments/EN-B0_dds_4gpu/stdout.log']
+    name = ['efficientB0']
+    filename = './experiments/EN-B0_dds_4gpu/result.html'
     plot_error_curves_plotly(log_file_name, name, filename)
     pass
