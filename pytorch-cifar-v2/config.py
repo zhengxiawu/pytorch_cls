@@ -73,6 +73,8 @@ class AugmentConfig(BaseConfig):
                             default=16, help='cutout length')
         parser.add_argument('--drop_path_prob', type=float,
                             default=0.2, help='drop path prob')
+        parser.add_argument('--genotype', type=str,
+                            default=None, help='genotype of nasnet')
         return parser
 
     def __init__(self):

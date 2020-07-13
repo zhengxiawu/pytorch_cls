@@ -3,7 +3,7 @@ import os
 import torch
 import torch.nn as nn
 import numpy as np
-from tensorboardX import SummaryWriter
+from torch.utils.tensorboard import SummaryWriter
 from config import AugmentConfig
 import utils
 from models import get_model
@@ -45,7 +45,11 @@ def main():
         config.dataset, config.data_path, config.cutout_length, validation=True)
 
     criterion = nn.CrossEntropyLoss().to(device)
-    model = get_model(config.model_name)
+    if config.genotype is not None:
+        from .models.nas_models import AugmentCNN, Genotype
+        model = AugmentCNN(32, 3, 36, 10, 20, True, eval(config.genotype))
+    else:
+        model = get_model(config.model_name)
 
     # model size and flops
     macs, params = profile(model, inputs=(torch.randn(1, 3, 32, 32), ))
