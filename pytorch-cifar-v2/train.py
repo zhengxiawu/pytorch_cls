@@ -1,14 +1,20 @@
 """ Training augmented model """
 import os
+import random
+
+import numpy as np
 import torch
 import torch.nn as nn
-import numpy as np
-from torch.utils.tensorboard import SummaryWriter
-from config import AugmentConfig
-import utils
-from models import get_model
 from thop import profile
-import random
+
+import utils
+from config import AugmentConfig
+from models import get_model
+
+try:
+    from torch.utils.tensorboard import SummaryWriter
+except ModuleNotFoundError:
+    from tensorboardX import SummaryWriter
 
 
 config = AugmentConfig()
