@@ -75,8 +75,7 @@ class AugmentConfig(BaseConfig):
                             default=0.2, help='drop path prob')
         parser.add_argument('--drop_out', type=float,
                             default=0, help='drop out rate')
-        parser.add_argument('--autoaugment', action='store_true',
-                            default=True, help='use auto augmentation')
+        parser.add_argument('--autoaugment', action='store_true', help='use auto augmentation')
         parser.add_argument('--genotype', type=str,
                             default=None, help='genotype of nasnet')
         return parser
