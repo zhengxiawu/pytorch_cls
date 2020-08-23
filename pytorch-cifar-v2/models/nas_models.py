@@ -299,7 +299,7 @@ class AugmentCNN(nn.Module):
     """ Augmented CNN model """
 
     def __init__(self, input_size, C_in, C, n_classes, n_layers, auxiliary, genotype,
-                 stem_multiplier=3):
+                 stem_multiplier=3, drop_out=0):
         """
         Args:
             input_size: size of height and width (assuming height = width)
@@ -307,6 +307,7 @@ class AugmentCNN(nn.Module):
             C: # of starting model channels
         """
         super().__init__()
+        self._dropout = drop_out
         self.C_in = C_in
         self.C = C
         self.n_classes = n_classes
@@ -345,6 +346,8 @@ class AugmentCNN(nn.Module):
                 self.aux_head = AuxiliaryHead(input_size//4, C_p, n_classes)
 
         self.gap = nn.AdaptiveAvgPool2d(1)
+        if self._dropout > 0:
+            self.dropout = nn.Dropout(p=self._dropout)
         self.linear = nn.Linear(C_p, n_classes)
 
     def forward(self, x):
@@ -357,6 +360,8 @@ class AugmentCNN(nn.Module):
                 aux_logits = self.aux_head(s1)
 
         out = self.gap(s1)
+        if self._dropout > 0:
+            out = self.dropout(out)
         out = out.view(out.size(0), -1)  # flatten
         logits = self.linear(out)
         return logits, aux_logits

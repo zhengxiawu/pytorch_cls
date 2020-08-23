@@ -48,12 +48,13 @@ def main():
 
     # get data with meta info
     input_size, input_channels, n_classes, train_data, valid_data = utils.get_data(
-        config.dataset, config.data_path, config.cutout_length, validation=True)
+        config.dataset, config.data_path, config.cutout_length, validation=True, autoaugment=config.autoaugment)
 
     criterion = nn.CrossEntropyLoss().to(device)
     if config.genotype is not None:
         from models.nas_models import AugmentCNN, Genotype
-        model = AugmentCNN(32, 3, 36, 10, 20, True, eval(config.genotype))
+        model = AugmentCNN(32, 3, 36, 10, 20, True, eval(
+            config.genotype), config.drop_out)
     else:
         model = get_model(config.model_name)
 

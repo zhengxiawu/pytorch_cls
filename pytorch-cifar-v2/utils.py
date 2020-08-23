@@ -6,6 +6,7 @@ import torch
 import torchvision.datasets as dset
 import torchvision.transforms as transforms
 import numpy as np
+from autoaugment import CIFAR10Policy, ImageNetPolicy, SVHNPolicy
 
 
 class Cutout(object):
@@ -31,7 +32,7 @@ class Cutout(object):
         return img
 
 
-def data_transforms(dataset, cutout_length):
+def data_transforms(dataset, cutout_length, autoaugment=False):
     dataset = dataset.lower()
     if dataset == 'cifar10':
         MEAN = [0.49139968, 0.48215827, 0.44653124]
@@ -40,6 +41,8 @@ def data_transforms(dataset, cutout_length):
             transforms.RandomCrop(32, padding=4, padding_mode='reflect'),
             transforms.RandomHorizontalFlip()
         ]
+        if autoaugment:
+            transf.append(CIFAR10Policy())
     elif dataset == 'mnist':
         MEAN = [0.13066051707548254]
         STD = [0.30810780244715075]
@@ -72,7 +75,7 @@ def data_transforms(dataset, cutout_length):
     return train_transform, valid_transform
 
 
-def get_data(dataset, data_path, cutout_length, validation):
+def get_data(dataset, data_path, cutout_length, validation, autoaugment=False):
     """ Get torchvision dataset """
     dataset = dataset.lower()
 
@@ -89,7 +92,7 @@ def get_data(dataset, data_path, cutout_length, validation):
         raise ValueError(dataset)
 
     trn_transform, val_transform = data_transforms(
-        dataset, cutout_length)
+        dataset, cutout_length, autoaugment=autoaugment)
     trn_data = dset_cls(root=data_path, train=True,
                         download=True, transform=trn_transform)
 
