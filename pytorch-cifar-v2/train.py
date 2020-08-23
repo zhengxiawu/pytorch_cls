@@ -54,7 +54,7 @@ def main():
     if config.genotype is not None:
         from models.nas_models import AugmentCNN, Genotype
         model = AugmentCNN(32, 3, 36, 10, 20, True, eval(
-            config.genotype), config.drop_out)
+            config.genotype), drop_out=config.drop_out)
     else:
         model = get_model(config.model_name)
 
