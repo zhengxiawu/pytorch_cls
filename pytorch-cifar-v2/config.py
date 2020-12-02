@@ -103,8 +103,8 @@ class Depth_AugmentConfig(BaseConfig):
                             default=20, help='# of layers')
         parser.add_argument('--factor', type=int,
                             default=2, help='# channel multi factor')
-        parser.add_argument('--expansion', type=int,
-                            default=1, help='# channel expansion')
+        parser.add_argument('--expansion', type=float,
+                            default=1.0, help='# channel expansion')
         parser.add_argument('--dataset', default='CIFAR10',
                             help='CIFAR10 / MNIST / FashionMNIST')
         parser.add_argument('--batch_size', type=int,
