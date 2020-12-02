@@ -150,5 +150,5 @@ class Depth_AugmentConfig(BaseConfig):
         self.data_path = '/gdata/cifar10'
         _path = "{}_{}_{}_{}_{}_{}_{}".format(
             self.model_name, self.channel, self.layers, self.factor, self.expansion, time.strftime("%Y%m%d-%H%M%S"), torch.__version__)
-        self.path = os.path.join('./experiments', _path)
+        self.path = os.path.join('./experiments/depth', _path)
         self.gpus = parse_gpus(self.gpus)

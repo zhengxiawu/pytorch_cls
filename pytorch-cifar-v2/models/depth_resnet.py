@@ -64,7 +64,6 @@ class Res_Cell(nn.Module):
                 stride = 2
             else:
                 stride = 1
-            print(self.expansion)
             self.layers.append(block(self.in_planes, channel,
                                      expansion=self.expansion, stride=stride))
             self.in_planes = channel * self.expansion
