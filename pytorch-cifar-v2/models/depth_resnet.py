@@ -50,7 +50,7 @@ class Res_Cell(nn.Module):
     def __init__(self, init_channels, multi_factor, layers, block, num_classes=10, expansion=4):
         super(Res_Cell, self).__init__()
         self._auxiliary = True
-        self.expansion = 4
+        self.expansion = expansion
         channel = init_channels
         self.conv1 = nn.Conv2d(3, channel, kernel_size=3,
                                stride=1, padding=1, bias=False)
