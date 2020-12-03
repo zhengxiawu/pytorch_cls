@@ -171,6 +171,17 @@ Training different architectures ([PyTorch](http://pytorch.org/)) on the CIFAR10
 |basic_rescell_36_3_20| 97.1400%| 14.194 M| 1314.504 M|12.8383333|0.4       |0.2      |16    |
 |bottleNeck_rescell_36_3_20| 96.7200%| 14.381 M| 1364.990 M|17.65|0.4       |0.2      |16    |
 
+#### Depth wise resnet
+
+| Model   | Acc. | FLOPS | param|
+| -       | :-:  | :--:  | :--: |
+|16_20_2_4| 95.22| 53    | 0.35 |
+|16_20_4_4| 96.48| 335   | 4.04 |
+|16_40_2_4| 96.3 | 99    | 0.65 |
+|16_40_4_4| 96.76| 642   | 7.97 |
+|32_20_2_4| 96.26| 203   | 1.36 |
+|32_40_2_4| 96.96| 379   | 2.56 |
+
 ### PyTorch-imagenet-basic
 
 Code base: [py_cls](https://github.com/facebookresearch/pycls)
