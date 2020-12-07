@@ -47,8 +47,9 @@ class Bottleneck(nn.Module):
 
 
 class Res_Cell(nn.Module):
-    def __init__(self, init_channels, multi_factor, layers, block, num_classes=10, expansion=4):
+    def __init__(self, init_channels, multi_factor, layers, block, num_classes=10, expansion=4, drop_out=0):
         super(Res_Cell, self).__init__()
+        self._dropout = drop_out
         self._auxiliary = True
         self.expansion = expansion
         channel = init_channels
@@ -70,6 +71,9 @@ class Res_Cell(nn.Module):
             if i == 2*layers//3:
                 self.aux_head = AuxiliaryHead(8, self.in_planes, 10)
         self.layers = nn.Sequential(*self.layers)
+        self.gap = nn.AdaptiveAvgPool2d(1)
+        if self._dropout > 0:
+            self.dropout = nn.Dropout(p=self._dropout)
         self.linear = nn.Linear(self.in_planes, num_classes)
 
     def forward(self, x):
@@ -79,7 +83,9 @@ class Res_Cell(nn.Module):
             out = layer(out)
             if self.training and i == 2*len(self.layers)//3:
                 logits_aux = self.aux_head(out)
-        out = F.avg_pool2d(out, 8)
+        out = F.gap(out)
+        if self._dropout > 0:
+            out = self.dropout(out)
         out = out.view(out.size(0), -1)
         out = self.linear(out)
         return out, logits_aux

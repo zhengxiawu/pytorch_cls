@@ -53,7 +53,7 @@ def main():
 
     criterion = nn.CrossEntropyLoss().to(device)
 
-    model = Depth_resnet(config.channel, config.factor, config.layers, config.expansion)
+    model = Depth_resnet(config.channel, config.factor, config.layers, config.expansion, config.drop_out)
     # if config.genotype is not None:
     #     from models.nas_models import AugmentCNN, Genotype
     #     model = AugmentCNN(32, 3, 36, 10, 20, True, eval(

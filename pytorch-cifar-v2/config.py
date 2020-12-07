@@ -105,6 +105,8 @@ class Depth_AugmentConfig(BaseConfig):
                             default=2, help='# channel multi factor')
         parser.add_argument('--expansion', type=float,
                             default=1.0, help='# channel expansion')
+        parser.add_argument('--init_channels', type=int, default=36)
+
         parser.add_argument('--dataset', default='CIFAR10',
                             help='CIFAR10 / MNIST / FashionMNIST')
         parser.add_argument('--batch_size', type=int,
@@ -123,7 +125,6 @@ class Depth_AugmentConfig(BaseConfig):
                             '`all` indicates use all gpus.')
         parser.add_argument('--epochs', type=int, default=600,
                             help='# of training epochs')
-        parser.add_argument('--init_channels', type=int, default=36)
 
         parser.add_argument('--seed', type=int, default=2, help='random seed')
         parser.add_argument('--workers', type=int,
