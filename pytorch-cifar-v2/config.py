@@ -97,15 +97,29 @@ class Depth_AugmentConfig(BaseConfig):
     def build_parser(self):
         parser = get_parser("Augment config")
         parser.add_argument('--model_name', default='depth_resnet')
-        # architecture
-        parser.add_argument('--channel', type=int, default=64, help='channel')
+        # 需要调整的结构
+        parser.add_argument('--channel', type=int, default=32,
+                            help='channel')  # 第一层输入的层数 [8, 64, 8]
         parser.add_argument('--layers', type=int,
-                            default=20, help='# of layers')
+                            default=20, help='# of layers')  # 总共的 神经网络层数 [10, 160, 1]
         parser.add_argument('--factor', type=int,
-                            default=2, help='# channel multi factor')
+                            default=2, help='# channel multi factor')  # 经过一次 stride=2之后的 翻倍因子 [1, 4, 0.5]
         parser.add_argument('--expansion', type=float,
-                            default=1.0, help='# channel expansion')
-        parser.add_argument('--init_channels', type=int, default=36)
+                            default=1.0, help='# channel expansion')  # 每一个 block之间传递的channel size [0.5, 4]
+        #################
+
+        # 需要调整的 训练超参数
+        parser.add_argument('--epochs', type=int, default=600,
+                            help='# of training epochs')  # 训练的epoch [150, 300, 600, 1200, 1800, 2400]
+        parser.add_argument('--aux_weight', type=float,
+                            default=0.4, help='auxiliary loss weight')  # 辅助loss权重 [0, 0.9, 0.1]
+        parser.add_argument('--cutout_length', type=int,
+                            default=16, help='cutout length')  # cutout [0, 24, 4]
+        parser.add_argument('--drop_path_prob', type=float,
+                            default=0.2, help='drop path prob')  # drop_path_prob [0, 0.9, 0.1]
+        parser.add_argument('--drop_out', type=float,
+                            default=0, help='drop out rate')  # drop_out [0, 0.9, 0.1]
+        #################
 
         parser.add_argument('--dataset', default='CIFAR10',
                             help='CIFAR10 / MNIST / FashionMNIST')
@@ -123,20 +137,10 @@ class Depth_AugmentConfig(BaseConfig):
                             default=200, help='print frequency')
         parser.add_argument('--gpus', default='0', help='gpu device ids separated by comma. '
                             '`all` indicates use all gpus.')
-        parser.add_argument('--epochs', type=int, default=600,
-                            help='# of training epochs')
 
         parser.add_argument('--seed', type=int, default=2, help='random seed')
         parser.add_argument('--workers', type=int,
                             default=4, help='# of workers')
-        parser.add_argument('--aux_weight', type=float,
-                            default=0.4, help='auxiliary loss weight')
-        parser.add_argument('--cutout_length', type=int,
-                            default=16, help='cutout length')
-        parser.add_argument('--drop_path_prob', type=float,
-                            default=0.2, help='drop path prob')
-        parser.add_argument('--drop_out', type=float,
-                            default=0, help='drop out rate')
         parser.add_argument(
             '--autoaugment', action='store_true', help='use auto augmentation')
         parser.add_argument('--genotype', type=str,
